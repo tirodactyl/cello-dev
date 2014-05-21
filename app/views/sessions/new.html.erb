@@ -1,0 +1,9 @@
+<h1>Login!</h1>
+
+<%= render partial: "users/form", locals: {
+  user: @user,
+  action: session_url,
+  method: "post",
+  message: "Log in!" } %>
+  
+<p>Not signe up yet? <%= link_to "Create an account!", new_user_url %></p>

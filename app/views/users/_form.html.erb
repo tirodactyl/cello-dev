@@ -1,0 +1,12 @@
+<form action='<%= action %>' method='post'>
+  <%= auth_token_input %>
+  <input type='hidden' name='_method' value='<%= method %>'>
+  
+  <label for='user_email'>Email:</label>
+  <input type='text' name='user[email]' id='user_email' value='<%= user.email.try(:html_safe) %>'>
+  
+  <label for ='user_password'>Password:</label>
+  <input type='password' name='user[password]' id='user_password'>
+  
+  <input type='submit' value='<%= message %>'>
+</form>

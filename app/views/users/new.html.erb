@@ -1,0 +1,7 @@
+<h1>Sign up!</h1>
+
+<%= render partial: "form", locals: {
+  user: @user,
+  action: users_url,
+  method: "post",
+  message: "Create your account" } %>
