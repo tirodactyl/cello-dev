@@ -32,11 +32,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development do
-  gem 'binding_of_caller'
-  gem 'better_errors'
-end
-
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
@@ -48,3 +43,12 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use debugger
 gem 'debugger', group: [:development, :test]
+
+### Manual additions by tpeguero
+group :development do
+  gem 'binding_of_caller'
+  gem 'better_errors'
+end
+
+gem 'backbone-on-rails'
+gem 'bootstrap-sass'
