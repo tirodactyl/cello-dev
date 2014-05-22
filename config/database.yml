@@ -47,13 +47,8 @@ development:
 #   encoding: unicode
 #   database: tracker_test
 #   pool: 5
-#   username: tracker
-#   password:
-# 
-# production:
-#   adapter: postgresql
-#   encoding: unicode
-#   database: tracker_production
-#   pool: 5
-#   username: tracker
-#   password:
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
