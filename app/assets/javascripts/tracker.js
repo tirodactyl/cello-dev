@@ -5,6 +5,8 @@ window.Tracker = {
   Routers: {},
   initialize: function() {
     console.log('Hello from Backbone!');
+    new Tracker.Routers.AppRouter();
+    Backbone.history.start();
   }
 };
 

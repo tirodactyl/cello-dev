@@ -22,10 +22,11 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+# removing turbolinks: http://blog.steveklabnik.com/posts/2013-06-25-removing-turbolinks-from-rails-4
+# gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+# gem 'jbuilder', '~> 1.2'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -52,3 +53,5 @@ end
 
 gem 'backbone-on-rails'
 gem 'bootstrap-sass'
+gem 'jbuilder', '~> 2.0.7'
+gem 'ejs'

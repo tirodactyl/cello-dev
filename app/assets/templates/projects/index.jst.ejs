@@ -1,0 +1,9 @@
+<h2>Projects</h2>
+<div id="projects-list" class="list-group">
+  <% projects.each(function (project) { %>
+    <a class="list-group-item" href="#/projects/<%= project.id %>">
+      <%= project.escape('title') %>
+    </a>
+  <% }); %>
+</div>
+<a class="btn btn-default create-new-project" href="#/projects/new">Create New</a>

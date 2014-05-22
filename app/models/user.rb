@@ -3,6 +3,16 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }, on: :create
   before_validation :ensure_session_token!
   
+  has_many :owned_projects, {
+    class_name: "Project",
+    foreign_key: :owner_id,
+    primary_key: :id,
+    inverse_of: :owner
+  }
+  
+  has_many :memberships, class_name: "ProjectMembership", inverse_of: :user
+  has_many :projects, through: :memberships, source: :project
+  
   attr_reader :password
   
   def self.find_by_credentials(email, password)
