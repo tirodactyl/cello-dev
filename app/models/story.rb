@@ -4,8 +4,8 @@ class Story < ActiveRecord::Base
   
   validates :title, :story_type, :story_state, presence: true
   validates :project, :requester, presence: true
-  validates :story_type, in: STORY_TYPES
-  validates :story_state, in: STORY_STATES
+  validates :story_type, inclusion: { in: STORY_TYPES }
+  validates :story_state, inclusion: { in: STORY_STATES }
   validates :points, presence: true, if: :estimated?
   validates :owner, presence: true, if: :started?
   with_options if: :completed? do |completed|
