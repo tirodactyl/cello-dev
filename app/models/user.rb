@@ -6,10 +6,18 @@ class User < ActiveRecord::Base
   has_many :owned_projects, {
     class_name: "Project",
     foreign_key: :owner_id,
-    primary_key: :id,
     inverse_of: :owner
   }
-  
+  has_many :requested_stories, {
+    class_name: "Story",
+    foreign_key: :requester_id,
+    inverse_of: :requester
+  }
+  has_many :owned_stories, {
+    class_name: "Story",
+    foreign_key: :owner_id,
+    inverse_of: :owner
+  }
   has_many :memberships, class_name: "ProjectMembership", inverse_of: :user
   has_many :projects, through: :memberships, source: :project
   

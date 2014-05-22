@@ -55,3 +55,4 @@ gem 'backbone-on-rails'
 gem 'bootstrap-sass'
 gem 'jbuilder', '~> 2.0.7'
 gem 'ejs'
+gem 'rails_12factor', group: :production

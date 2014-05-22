@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyString
+  story_type: MyString
+  points: 1
+  story_state: MyString
+  project_id: 1
+  requester_id: 1
+  owner_id: 1
+  iteration_id: 1
+  date_completed: 2014-05-22
+
+two:
+  title: MyString
+  description: MyString
+  story_type: MyString
+  points: 1
+  story_state: MyString
+  project_id: 1
+  requester_id: 1
+  owner_id: 1
+  iteration_id: 1
+  date_completed: 2014-05-22

@@ -9,4 +9,5 @@ class Project < ActiveRecord::Base
   
   has_many :memberships, class_name: "ProjectMembership", inverse_of: :project
   has_many :members, through: :memberships, source: :user
+  has_many :stories, inverse_of: :project
 end

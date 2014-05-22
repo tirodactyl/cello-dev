@@ -4,7 +4,7 @@ module Api
       @project = Project.new(project_params)
       @project.owner_id = current_user.id
     
-      if @project.save!
+      if @project.save
         @project.member_ids=[current_user.id]
         render partial: 'api/projects/project', locals: { project: @project }
       else
@@ -15,7 +15,7 @@ module Api
     def update
       @project = Project.find(params[:id])
   
-      if @project.save!
+      if @project.update_attributes(project_params)
         render partial: 'api/projects/project', locals: { project: @project }
       else
         render json: { errors: @project.errors.full_messages }, status: :unprocessable_entity
@@ -46,7 +46,7 @@ module Api
   
     private
     def project_params
-      params.require(:project).permit(:title, :description)
+      params.require(:project).permit(:title, :description, :owner_id)
     end
   end
 end

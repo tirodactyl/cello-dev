@@ -1,0 +1,1 @@
+json.extract! story, :id, :title, :description, :story_type, :story_state, :story_points, :project_id, :requester_id, :owner_id, :iteration_id, :date_completed, :created_at, :updated_at
