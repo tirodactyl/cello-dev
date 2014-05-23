@@ -35,7 +35,6 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
       project_id: this.model.id
     });
     _.each(this.subviews('#project-panels'), function (subview) {
-      console.log(subview.title)
       if (subview.title === 'icebox') {
         subview.addStory(newStory)
       }

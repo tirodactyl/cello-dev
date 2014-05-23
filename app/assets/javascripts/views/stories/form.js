@@ -6,13 +6,14 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     this.$el.html(this.template({
       storyTypes: this.model.storyTypes,
       storyStates: this.model.storyStates,
-      storyPointVals: this.model.storyPointVals,
+      storyPointVals: this.model.storyPoints,
       story: this.model
     }));
     return this;
   },
   events: {
-    'submit form': 'saveStory'
+    'submit form': 'saveStory',
+    'click .delete-story': 'destroyStory'
   },
   saveStory: function (event) {
     event.preventDefault();
@@ -30,4 +31,8 @@ Tracker.Views.StoryForm = Backbone.View.extend({
       }
     });
   },
+  destroyStory: function (event) {
+    var view = this;
+    this.model.destroy();
+  }
 });

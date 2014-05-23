@@ -7,6 +7,14 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
       story: this.model
     }));
     
+    if (!this.model.id && !this.formView) {
+      this.toggleForm();
+    }
+    
+    if(this.formView) {
+      this.togglePreview();
+    }
+    
     this.attachSubviews();
     
     return this;
@@ -16,16 +24,23 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.listenTo(this.model, 'sync', this.saveActions);
   },
   events: {
-    'click .init-edit': 'toggleEdit',
-    // 'dblclick .preview': 'toggleEdit'
+    'click .init-edit': 'expandForm',
+    'click .cancel-edit': 'toggleForm',
+    'dblclick .story-preview': 'expandForm'
   },
   saveActions: function () {
     $(this).data('id', this.model.id);
     this.render();
   },
-  toggleEdit: function () {
+  expandForm: function () {
+    this.togglePreview();
+    this.toggleForm();
+  },
+  togglePreview: function () {
     this.$('.init-edit').toggleClass('glyphicon-chevron-right glyphicon-chevron-down');
     this.$('.story-preview').toggleClass('show hidden');
+  },
+  toggleForm: function () {
     if (!this.formView) {
       this.formView = new Tracker.Views.StoryForm({
         model: this.model,
@@ -36,6 +51,10 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     } else {
       this.removeSubview('.story-body', this.formView);
       this.formView = undefined;
+    }
+    
+    if (!this.model.id) {
+      this.trigger('cancelCreate', this)
     }
   }
   // addProject: function (project) {

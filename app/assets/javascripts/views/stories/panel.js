@@ -19,12 +19,9 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       this.title = options.panelType;
       this.$el.attr('id', this.title);
     }
-    // this.collection.fetch();
+    this.listenTo(this.collection, 'remove', this.removeStoryShow);
     this.collection.each( function (story) {
-      storyView = new Tracker.Views.StoryShow({
-        model: story
-      });
-      view.addSubview('.story-views', storyView);
+      view.addStory(story);
     });
   },
   events: {
@@ -35,6 +32,14 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       model: story,
       collection: this.collection
     });
+    
+    if (!story.id) {
+      this.listenTo(storyView, 'cancelCreate', this.removeStoryShow)
+    }
+
     this.addSubview('.story-views', storyView);
+  },
+  removeStoryShow: function (subview) {
+    this.removeSubview('.story-views', subview);
   }
 });

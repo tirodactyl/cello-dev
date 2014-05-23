@@ -2,7 +2,15 @@
   <input type="hidden" name="story[project_id]" value="<%= story.get('project_id') %>">
   <input class="form-control" name="story[title]" placeholder="Story Title"
       value="<%= story.get('title') %>">
-  <input type=submit class="btn btn-submit submit" value="Save">
+  <input type=submit class="btn btn-xs btn-submit submit" value="Save">
+  <% if(story.id) { %>
+  <button class="btn btn-xs btn-danger delete-story">
+    <span class="glyphicon glyphicon-trash"></span>
+  </button>
+  <% } %>
+  <button class="btn btn-xs btn-warning cancel-edit">
+    <span class="glyphicon glyphicon-ban-circle"></span>
+  </button>
 
   <div class="input-group">
     <label for="story-type" class="input-group-addon">Type:</label>
@@ -26,7 +34,7 @@
     </select>
   </div>
   <div class="input-group">
-    <label for="story-points" class="input-group-addon">State:</label>
+    <label for="story-points" class="input-group-addon">Points:</label>
     <select id="story-points" name="story[story_points]" class="form-control">
       <% _.each(storyPointVals, function (storyPointVal) { %>
       <option <%= story.selectedStoryPointVal(storyPointVal) %> value="<%= storyPointVal %>">
@@ -35,4 +43,7 @@
       <% }); %>
     </select>
   </div>
+  
+  <textarea class="form-control" name="story[description]" placeholder="Description"><%= story.get('description') %></textarea>
+  
 </form>
