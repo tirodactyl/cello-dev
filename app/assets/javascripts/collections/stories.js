@@ -3,6 +3,7 @@ Tracker.Collections.Stories = Backbone.Collection.extend({
     return 'api/projects/' + this.project.id + '/stories'
   },
   model: Tracker.Models.Story,
+  comparator: 'story_rank',
   initialize: function (models, options) {
     this.project = options.project;
   },

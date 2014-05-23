@@ -31,17 +31,10 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     
   },
   addStory: function (story) {
-    var storyView;
-    if (story.id) {
-      storyView = new Tracker.Views.StoryShow({
-        model: story
-      });
-    } else {
-      storyView = new Tracker.Views.StoryForm({
-        model: story,
-        collection: this.collection
-      });
-    }
+    var storyView = new Tracker.Views.StoryShow({
+      model: story,
+      collection: this.collection
+    });
     this.addSubview('.story-views', storyView);
   }
 });

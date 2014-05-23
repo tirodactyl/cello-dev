@@ -24,7 +24,8 @@
 
 .panel-body.story-views {
   padding: 0px;
-  &> div {
+  &> div.story-show {
+    position: relative;
     border: thin solid rgb(221, 221, 221);
   }
 }
@@ -38,3 +39,7 @@
   }
   
 }
+
+//.story-show .story-body {
+//  position: absolute;
+//}

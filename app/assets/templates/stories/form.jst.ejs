@@ -1,7 +1,7 @@
 <form>
-  <input type="hidden" name=story[project_id] value="<%= projectId %>">
+  <input type="hidden" name="story[project_id]" value="<%= story.get('project_id') %>">
   <input class="form-control" name="story[title]" placeholder="Story Title"
-      value="<%= story.title %>">
+      value="<%= story.get('title') %>">
   <input type=submit class="btn btn-submit submit" value="Save">
 
   <div class="input-group">
@@ -26,8 +26,8 @@
     </select>
   </div>
   <div class="input-group">
-    <label for="story-state" class="input-group-addon">State:</label>
-    <select id="story-state" name="story[story_state]" class="form-control">
+    <label for="story-points" class="input-group-addon">State:</label>
+    <select id="story-points" name="story[story_points]" class="form-control">
       <% _.each(storyPointVals, function (storyPointVal) { %>
       <option <%= story.selectedStoryPointVal(storyPointVal) %> value="<%= storyPointVal %>">
         <%= storyPointVal %>

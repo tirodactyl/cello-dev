@@ -7,8 +7,7 @@ Tracker.Views.StoryForm = Backbone.View.extend({
       storyTypes: this.model.storyTypes,
       storyStates: this.model.storyStates,
       storyPointVals: this.model.storyPointVals,
-      story: this.model,
-      projectId: this.collection.project.id
+      story: this.model
     }));
     return this;
   },
@@ -19,12 +18,12 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     event.preventDefault();
     var $form = $(event.target);
     var story = this.model;
-    var stories;
-    console.log($form.serializeJSON())
-    this.collection && (stories = this.collection);
-    story.save($form.serializeJSON(), {
+    var stories = this.collection;
+    var view = this;
+    story.save($form.serializeJSON().story, {
       success: function () {
         stories && stories.add(story);
+        view.trigger('submit');
       },
       error: function (errors) {
         alert(errors);
