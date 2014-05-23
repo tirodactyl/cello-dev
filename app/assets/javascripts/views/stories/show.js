@@ -1,18 +1,17 @@
-Tracker.Views.ProjectIndex = Backbone.View.extend({
+Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   tagName: 'div',
-  className: 'projects-index',
-  template: JST['projects/index'],
+  className: 'story-show',
+  template: JST['stories/show'],
   render: function () {
     this.$el.html(this.template({
-      projects: this.collection
+      story: this.model
     }));
     return this;
   },
   initialize: function () {
-    this.listenTo(this.collection, 'sync add remove', this.render)
-    this.listenTo(this.collection, 'add', this.render)
-    this.listenTo(this.collection, 'remove', this.render)
-    this.collection.fetch();
+    $(this).data('id', this.model.id);
+    // $(this).data('rank', this.model.rank);
+    this.listenTo(this.model, 'sync', this.render);
   },
   events: {
     

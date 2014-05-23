@@ -1,4 +1,4 @@
-Tracker.Views.ProjectShow = Backbone.View.extend({
+Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   tagName: 'div',
   className: 'projects-show',
   template: JST['projects/show'],
@@ -6,15 +6,38 @@ Tracker.Views.ProjectShow = Backbone.View.extend({
     this.$el.html(this.template({
       project: this.model
     }));
+    
+    this.attachSubviews()
+    
     return this;
   },
   initialize: function () {
+    var view = this;
     this.listenTo(this.model, 'sync', this.render);
-    // this.model.stories().fetch();
+    this.model.stories().fetch({
+      success: view.showStories.bind(view)
+    });
   },
   events: {
-    
+    'showStories': 'showStories',
+    'click #add-story': 'newStory'
   },
+  showStories: function () {
+    var subview = new Tracker.Views.StoriesPanel({
+      collection: this.model.stories(),
+      panelType: 'icebox'
+    })
+    this.addSubview('#project-panels', subview)
+  },
+  newStory: function () {
+    var newStory = new Tracker.Models.Story;
+    _.each(this.subviews('#project-panels'), function (subview) {
+      console.log(subview.title)
+      if (subview.title === 'icebox') {
+        subview.addStory(newStory)
+      }
+    });
+  }
   // addProject: function (project) {
   //   this.render();
   // },

@@ -12,4 +12,29 @@
  *= require_tree .
  */
 
-@import "bootstrap"
+
+@import "bootstrap";
+
+.panel.stories-panel {
+  padding: 0px;
+  .panel-heading {
+    font-size: 20px;
+  }
+}
+
+.panel-body.story-views {
+  padding: 0px;
+  &> div {
+    border: thin solid rgb(221, 221, 221);
+  }
+}
+.projects-show .page-header {
+  margin-top: 0px;
+  h2 {
+    margin-top: 5px;
+  }
+  div {
+    float: left;
+  }
+  
+}

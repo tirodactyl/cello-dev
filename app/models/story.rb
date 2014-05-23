@@ -6,11 +6,13 @@ class Story < ActiveRecord::Base
   validates :project, :requester, presence: true
   validates :story_type, inclusion: { in: STORY_TYPES }
   validates :story_state, inclusion: { in: STORY_STATES }
-  validates :points, presence: true, if: :estimated?
+  validates :story_points, presence: true, if: :estimated?
   validates :owner, presence: true, if: :started?
   with_options if: :completed? do |completed|
     completed.validates :date_completed, :iteration, presence: true
   end
+  
+  before_validation :ensure_story_state!
   
   # Following associations built during model creation.
   belongs_to :requester, {
@@ -41,9 +43,14 @@ class Story < ActiveRecord::Base
     self.story_state != 'fresh'
   end
   def started?
-    !%w(estimated fresh).include?(self.story_status)
+    !%w(estimated fresh).include?(self.story_state)
   end
   def completed?
     self.story_state == 'completed'
+  end
+  
+  private
+  def ensure_story_state!
+    self.story_state ||= 'fresh'
   end
 end
