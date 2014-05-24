@@ -11,25 +11,23 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
       this.toggleForm();
     }
     
-    if(this.formView) {
-      this.togglePreview();
-    }
-    
     this.attachSubviews();
     
     return this;
   },
   initialize: function () {
-    $(this).data('rank', this.model.get('story_rank'));
+    this.$el.attr('data-rank', this.model.get('story_rank'));
+    if(this.model.id) { this.$el.attr('data-id', this.model.id); }
     this.listenTo(this.model, 'sync', this.saveActions);
   },
   events: {
     'click .init-edit': 'expandForm',
     'click .cancel-edit': 'toggleForm',
-    'dblclick .story-preview': 'expandForm'
+    'dblclick .story-preview': 'expandForm',
+    'savedModel': 'saveActions'
   },
   saveActions: function () {
-    $(this).data('id', this.model.id);
+    this.$el.attr('data-id', this.model.id);
     this.render();
   },
   expandForm: function () {
@@ -46,7 +44,6 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
         model: this.model,
         collection: this.collection
       });
-      this.listenTo(this.formView, 'submit', this.toggleEdit);
       this.addSubview('.story-body', this.formView);
     } else {
       this.removeSubview('.story-body', this.formView);

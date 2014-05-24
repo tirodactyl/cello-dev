@@ -23,8 +23,8 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     var view = this;
     story.save($form.serializeJSON().story, {
       success: function () {
-        stories && stories.add(story);
-        view.trigger('submit');
+        stories.get(story.id) || stories.add(story);
+        view.$el.trigger('savedModel');
       },
       error: function (errors) {
         alert(errors);
