@@ -6,7 +6,10 @@ class Story < ActiveRecord::Base
   validates :project, :requester, presence: true
   validates :story_type, inclusion: { in: STORY_TYPES }
   validates :story_state, inclusion: { in: STORY_STATES }
-  validates :owner, :story_points, presence: true, if: :started?
+  with_options if: :started? do |started|
+    started.validates :owner, :story_points, presence: true
+    started.before_validation :ensure_story_owner!
+  end
   with_options if: :accepted? do |accepted|
     accepted.validates :date_completed, :iteration, presence: true
   end
@@ -51,5 +54,9 @@ class Story < ActiveRecord::Base
   private
   def ensure_story_state!
     self.story_state ||= 'unscheduled'
+  end
+  
+  def ensure_story_owner!
+    self.owner_id ||= current_user.id
   end
 end

@@ -2,7 +2,6 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
   tagName: 'div',
   className: 'panel panel-default col-lg-4 stories-panel',
   template: JST['stories/panel'],
-  title: 'storypanel',
   render: function () {
     this.$el.html(this.template({
       panel: this
@@ -18,16 +17,49 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     var storyView;
     var view = this;
     if (options && options.panelType) {
-      this.title = options.panelType;
-      this.$el.attr('id', this.title);
+      this.panelType = options.panelType;
+      this.$el.attr('id', this.panelType);
+      this.panelFilter = this.panelFilters[this.panelType];
     }
     this.listenTo(this.collection, 'remove', this.removeStoryShow);
+    this.listenTo(this.collection, 'sync', this.reList)
+    // remember to add listening to this._storyList - likely in the storyList method so it listens on init of the list
+    
     this.collection.each( function (story) {
       view.addStory(story);
     });
   },
   events: {
     
+  },
+  panelFilters: {
+    icebox: function (model) {
+      return model.get('state') === 'unscheduled';
+    },
+    backlog: function (model) {
+      return model.get('state') === 'unstarted';
+    },
+    current: function (model) {
+      return (
+        !_.contains(['unscheduled', 'unstarted', 'accepted'], model.get('state'))
+        // add additional checks after adding iterations
+      )
+    },
+    done: function (model) {
+      return (
+        model.get('state') === 'accepted'
+        // add additional checks after adding iterations
+      );
+    },
+  },
+  storyList: function () {
+    this._storyList = this._storyList ||
+        this.collection.filter(this.panelFilter);
+    return this._storyList
+  },
+  reList: function () {
+    this._storyList = undefined;
+    this.storyList();
   },
   addStory: function (story) {
     var storyView = new Tracker.Views.StoryShow({
@@ -45,7 +77,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.removeSubview('.story-views', subview);
   },
   
-  /// MANY PROBLEMS BEYOND THIS POINT
+  /// PROBLEMS BEYOND THIS POINT
   
   storiesSortable: function () {
     var storyId, story, oldPanelTitle, newPanelTitle, newRank;
