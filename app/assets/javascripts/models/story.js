@@ -8,7 +8,7 @@ Tracker.Models.Story = Backbone.Model.extend({
       return '';
     }
   },
-  storyStates: ['fresh', 'estimated', 'started', 'finished', 'delivered', 'rejected', 'completed'],
+  storyStates: ['unscheduled', 'unstarted', 'started', 'finished', 'delivered', 'rejected', 'accepted'],
   selectedStoryState: function (storyState) {
     if (storyState === this.get('story_state')) {
       return 'selected';

@@ -1,15 +1,14 @@
 class Story < ActiveRecord::Base
   STORY_TYPES = %w(feature bug task release)
-  STORY_STATES = %w(fresh estimated started finished delivered rejected completed)
+  STORY_STATES = %w(unscheduled unstarted started finished delivered rejected completed)
   
   validates :title, :story_type, :story_state, presence: true
   validates :project, :requester, presence: true
   validates :story_type, inclusion: { in: STORY_TYPES }
   validates :story_state, inclusion: { in: STORY_STATES }
-  validates :story_points, presence: true, if: :estimated?
-  validates :owner, presence: true, if: :started?
-  with_options if: :completed? do |completed|
-    completed.validates :date_completed, :iteration, presence: true
+  validates :owner, :story_points, presence: true, if: :started?
+  with_options if: :accepted? do |accepted|
+    accepted.validates :date_completed, :iteration, presence: true
   end
   
   before_validation :ensure_story_state!
@@ -22,35 +21,35 @@ class Story < ActiveRecord::Base
   }
   belongs_to :project, inverse_of: :stories
   
-  # Following association built during start event.
+  # Following association built when started.
   belongs_to :owner, {
     class_name: "User",
     foreign_key: :owner_id,
     inverse_of: :owned_stories
   }
   
-  # Following association built during completion event.
+  # Following association built when accepted.
   # belongs_to :iteration, inverse_of: :stories
   
   
   #NOTE that bugs must be delivered and accepted (like features)
   #NOTE that tasks and releases are completed when finished
   #NOTE that bugs, tasks, and releases have point values of 0
-  #NOTE that while a feature is in the icebox it is fresh and immediately started upon movement to backlog(has finish button)
+  #NOTE that while a feature is in the icebox it is unscheduled and upon movement to backlog or another view it becomes unstarted
   
   
   def estimated?
-    self.story_state != 'fresh'
+    (self.story_type == 'feature') && self.story_points
   end
   def started?
-    !%w(estimated fresh).include?(self.story_state)
+    !%w(unscheduled unstarted).include?(self.story_state)
   end
-  def completed?
-    self.story_state == 'completed'
+  def accepted?
+    self.story_state == 'accepted'
   end
   
   private
   def ensure_story_state!
-    self.story_state ||= 'fresh'
+    self.story_state ||= 'unscheduled'
   end
 end

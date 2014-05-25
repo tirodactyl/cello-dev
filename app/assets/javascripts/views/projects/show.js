@@ -15,28 +15,30 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     var view = this;
     this.listenTo(this.model, 'sync', this.render);
     this.model.stories().fetch({
-      success: view.showStories.bind(view)
+      success: function () {
+        view.showPanel('icebox');
+      }
     });
   },
   events: {
     'showStories': 'showStories',
-    'click #add-story': 'newStory'
+    'click #add-story': 'newStory',
   },
-  showStories: function () {
+  showPanel: function (panelType) {
     var subview = new Tracker.Views.StoriesPanel({
       collection: this.model.stories(),
-      panelType: 'icebox'
+      panelType: panelType,
     })
     this.addSubview('#project-panels', subview)
   },
   newStory: function () {
     var newStory = new Tracker.Models.Story({
       story_rank: (this.model.stories().length + 1),
-      project_id: this.model.id
+      project_id: this.model.id,
     });
     _.each(this.subviews('#project-panels'), function (subview) {
       if (subview.title === 'icebox') {
-        subview.addStory(newStory)
+        subview.addStory(newStory);
       }
     });
   }
