@@ -7,9 +7,9 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
       story: this.model
     }));
     
-    if (!this.model.id && !this.formView) {
-      this.toggleForm();
-    }
+    if (!this.model.id && !this.formView) { this.toggleForm(); }
+    
+    if (this.formView) { this.togglePreview(); }
     
     this.attachSubviews();
     
@@ -28,6 +28,8 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   },
   saveActions: function () {
     this.$el.attr('data-id', this.model.id);
+    this.$el.attr('data-rank', this.model.get('story_rank'));
+    this.expandForm();
     this.render();
   },
   expandForm: function () {

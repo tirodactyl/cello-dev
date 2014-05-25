@@ -25,7 +25,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.listenTo(this.collection, 'sync', this.reList)
     // remember to add listening to this._storyList - likely in the storyList method so it listens on init of the list
     
-    this.collection.each( function (story) {
+    _.each(this.storyList(), function (story) {
       view.addStory(story);
     });
   },
@@ -34,20 +34,20 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
   },
   panelFilters: {
     icebox: function (model) {
-      return model.get('state') === 'unscheduled';
+      return model.get('story_state') === 'unscheduled';
     },
     backlog: function (model) {
-      return model.get('state') === 'unstarted';
+      return model.get('story_state') === 'unstarted';
     },
     current: function (model) {
       return (
-        !_.contains(['unscheduled', 'unstarted', 'accepted'], model.get('state'))
+        !_.contains(['unscheduled', 'unstarted', 'accepted'], model.get('story_state'))
         // add additional checks after adding iterations
       )
     },
     done: function (model) {
       return (
-        model.get('state') === 'accepted'
+        model.get('story_state') === 'accepted'
         // add additional checks after adding iterations
       );
     },

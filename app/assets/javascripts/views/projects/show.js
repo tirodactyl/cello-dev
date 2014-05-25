@@ -17,6 +17,9 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     this.model.stories().fetch({
       success: function () {
         view.showPanel('icebox');
+        view.showPanel('backlog');
+        view.showPanel('current');
+        view.showPanel('done');
       }
     });
   },
@@ -37,7 +40,7 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
       project_id: this.model.id,
     });
     _.each(this.subviews('#project-panels'), function (subview) {
-      if (subview.title === 'icebox') {
+      if (subview.panelType === 'icebox') {
         subview.addStory(newStory);
       }
     });
