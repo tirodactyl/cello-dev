@@ -13,10 +13,6 @@ module Api
 
     def update
       @story = Story.find(params[:id])
-  
-      if params[:story_action]
-        #here we will send the action with any options once we have a state machine implemented....
-      end
       
       if @story.update_attributes(story_params)
         render partial: 'api/stories/story', locals: { story: @story }
