@@ -18,11 +18,13 @@ module Api
     def update
       @story = Story.find(params[:id])
       
+      server_params = {}
+      
       unless %w(unscheduled unstarted).include?(story_params[:story_state])
-        @story.owner_id || add_owner_id = {owner_id: current_user.id}
+        server_params[:owner_id] = current_user.id unless @story.owner_id
       end
       
-      if @story.update_attributes(story_params.merge(add_owner_id))
+      if @story.update_attributes(story_params.merge(server_params))
         render partial: 'api/stories/story', locals: { story: @story }
       else
         render json: { errors: @story.errors.full_messages }, status: :unprocessable_entity

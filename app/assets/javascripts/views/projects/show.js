@@ -14,12 +14,13 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   initialize: function () {
     var view = this;
     this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model.stories(), 'moveStory', this.moveStory)
     this.model.stories().fetch({
       success: function () {
-        view.showPanel('icebox');
-        view.showPanel('backlog');
-        view.showPanel('current');
         view.showPanel('done');
+        view.showPanel('current');
+        view.showPanel('backlog');
+        view.showPanel('icebox');
       }
     });
   },
@@ -35,22 +36,16 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     this.addSubview('#project-panels', subview)
   },
   newStory: function () {
+    if ($('.story-form.not-persisted').length !== 0) { return }
     var newStory = new Tracker.Models.Story({
       story_rank: (this.model.stories().length + 1),
       project_id: this.model.id,
     });
-    _.each(this.subviews('#project-panels'), function (subview) {
-      if (subview.panelType === 'icebox') {
-        subview.addStory(newStory);
-      }
-    });
-  }
-  // addProject: function (project) {
-  //   this.render();
-  // },
-  // removeProject: function (project) {
-  //   var selector = 'li.project#' + project.id;
-  //   $(this).find(selector).remove();
-  //   this.render();
-  // }
+    _.find(this.subviews('#project-panels'), function (subview) {
+      return subview.panelType === 'icebox';
+    }).addStory(newStory);
+  },
+  moveStory: function (view, panelTo) {
+    this.subviews()
+  },
 });

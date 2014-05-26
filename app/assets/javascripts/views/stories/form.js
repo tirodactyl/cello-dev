@@ -1,6 +1,6 @@
 Tracker.Views.StoryForm = Backbone.View.extend({
   tagName: 'div',
-  className: 'stories-new form-group',
+  className: 'story-form form-group',
   template: JST['stories/form'],
   render: function () {
     this.$el.html(this.template({
@@ -9,11 +9,17 @@ Tracker.Views.StoryForm = Backbone.View.extend({
       storyPointVals: this.model.storyPoints,
       story: this.model
     }));
+    
+    if (!this.model.id) {
+      alert('not-persisted')
+      this.$el.addClass('not-persisted');
+    }
+    
     return this;
   },
   events: {
     'submit form': 'saveStory',
-    'click .delete-story': 'destroyStory'
+    'click .delete-story': 'destroyStory',
   },
   saveStory: function (event) {
     event.preventDefault();

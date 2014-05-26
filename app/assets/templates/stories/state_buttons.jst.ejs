@@ -1,0 +1,22 @@
+<% var state = story.get('story_state') %>
+<% if (state === 'unstarted' || state === 'unscheduled') { %>
+  <% if (story.get('story_points') >= 0) { %>
+    <button class="btn btn-primary btn-xs story-action story-start">Start</button>
+  <% } else { %>
+    <button class="btn btn-default btn-xs story-action story-point-assign" data-points="0">0</button>
+    <button class="btn btn-default btn-xs story-action story-point-assign" data-points="1">1</button>
+    <button class="btn btn-default btn-xs story-action story-point-assign" data-points="2">2</button>
+    <button class="btn btn-default btn-xs story-action story-point-assign" data-points="3">3</button>
+  <% } %>
+<% } else if (state === 'started') { %>
+  <button class="btn btn-success btn-xs story-action story-finish">Finish</button>
+<% } else if (state === 'finished') { %>
+  <button class="btn btn-warning btn-xs story-action story-deliver">Deliver</button>
+<% } else if (state === 'delivered') { %>
+  <button class="btn btn-success btn-xs story-action story-accept">Accept</button>
+  <button class="btn btn-warning btn-xs story-action story-reject">Reject</button>
+<% } else if (state === 'rejected') { %>
+  <button class="btn btn-warning btn-xs story-action story-restart">Restart</button>
+<% } else if (state === 'accepted') { %>
+  <button class="btn btn-default btn-xs story-accepted-date btn-disabled">Accepted: <%= story.get('date_completed') %></button>
+<% } %>

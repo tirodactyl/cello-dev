@@ -1,6 +1,6 @@
 class Story < ActiveRecord::Base
   STORY_TYPES = %w(feature bug task release)
-  STORY_STATES = %w(unscheduled unstarted started finished delivered rejected completed)
+  STORY_STATES = %w(unscheduled unstarted started finished delivered rejected accepted)
   
   validates :title, :story_type, :story_state, presence: true
   validates :project, :requester, presence: true
@@ -10,7 +10,9 @@ class Story < ActiveRecord::Base
     started.validates :owner, :story_points, presence: true
   end
   with_options if: :accepted? do |accepted|
-    accepted.validates :date_completed, :iteration, presence: true
+    accepted.validates :date_completed, presence: true
+    # remember to validate :iteration once implemented
+    accepted.before_validation :ensure_date_completed!
   end
   
   before_validation :ensure_story_state!
@@ -53,5 +55,8 @@ class Story < ActiveRecord::Base
   private
   def ensure_story_state!
     self.story_state ||= 'unscheduled'
+  end
+  def ensure_date_completed!
+    self.date_completed ||= Time.now
   end
 end

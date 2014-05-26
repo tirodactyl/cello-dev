@@ -61,6 +61,12 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this._storyList = undefined;
     this.storyList();
   },
+  topRank: function () {
+    return _.first(this.storyList()).get('story_rank')
+  },
+  bottomRank: function () {
+    return _.last(this.storyList()).get('story_rank')
+  },
   addStory: function (story) {
     var storyView = new Tracker.Views.StoryShow({
       model: story,
@@ -71,7 +77,10 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       this.listenTo(storyView, 'cancelCreate', this.removeStoryShow)
     }
 
-    this.addSubview('.story-views', storyView);
+    this.addStoryShow(storyView);
+  },
+  addStoryShow: function (subview) {
+    this.addSubview('.story-views', subview);
   },
   removeStoryShow: function (subview) {
     this.removeSubview('.story-views', subview);
@@ -84,8 +93,9 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     var view = this;
   
     this.$('.story-views').sortable({
-      connectWith: '.story-views',
+      connectWith: '.story-views:not(.done)',
       tolerance: 'pointer',
+      items: '.story-show:not(.accepted)',
       start: function (event, ui) {
         storyId = ui.item.attr('data-id');
         story = view.collection.get(storyId);
@@ -113,12 +123,13 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
         // 
         // window.collection = view.model.stories()
       },
+      // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
-        prevRank = ui.item.prev().data('rank');
-        postRank = ui.item.next().data('rank');
+        prevRank = ui.item.prev('.story-show').data('rank');
+        console.log('prevRank: ' + typeof prevRank)
+        postRank = ui.item.next('.story-show').data('rank');
+        console.log('postRank: ' + typeof postRank)
         newRank = ((prevRank + postRank) / 2)
-        
-        window.v = ui.placeholder;
         
         story.save({story_rank: newRank}, {
           success: function () {
@@ -127,7 +138,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
         });
         
         if (newPanelTitle && (newPanelTitle !== oldPanelTitle)) {
-          view.collection.remove(story);
+          view.removeStory(story);
           view.render();
         }
       },
