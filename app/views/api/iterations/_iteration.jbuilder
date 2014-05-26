@@ -1,0 +1,1 @@
+json.extract! iteration, :id, :project_id, :velocity, :start_date, :end_date, :created_at, :updated_at

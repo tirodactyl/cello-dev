@@ -6,8 +6,10 @@ Tracker::Application.routes.draw do
   namespace :api, defaults: {format: :json} do
     resources :projects, only: [:create, :update, :show, :index, :destroy] do
       resources :stories, only: [:index]
+      resources :iterations, only: [:index]
     end
     
     resources :stories, only: [:create, :update, :show, :destroy]
+    resources :iterations, only: [:create, :update, :show]
   end
 end

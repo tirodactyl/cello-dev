@@ -1,0 +1,1 @@
+json.array! @iterations, partial: 'api/iteratons/iteraton', as: :iteraton

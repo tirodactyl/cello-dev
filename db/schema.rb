@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140523162209) do
+ActiveRecord::Schema.define(version: 20140526185743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "iterations", force: true do |t|
+    t.integer  "project_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "velocity"
+  end
+
+  add_index "iterations", ["project_id"], name: "index_iterations_on_project_id", using: :btree
 
   create_table "project_memberships", force: true do |t|
     t.integer  "user_id"
@@ -27,11 +38,12 @@ ActiveRecord::Schema.define(version: 20140523162209) do
   add_index "project_memberships", ["user_id"], name: "index_project_memberships_on_user_id", using: :btree
 
   create_table "projects", force: true do |t|
-    t.string   "title",       null: false
+    t.string   "title",                null: false
     t.string   "description"
-    t.integer  "owner_id",    null: false
+    t.integer  "owner_id",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "current_iteration_id"
   end
 
   add_index "projects", ["owner_id"], name: "index_projects_on_owner_id", using: :btree
@@ -46,7 +58,7 @@ ActiveRecord::Schema.define(version: 20140523162209) do
     t.integer  "requester_id",   null: false
     t.integer  "owner_id"
     t.integer  "iteration_id"
-    t.date     "date_completed"
+    t.datetime "date_completed"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "story_rank",     null: false
