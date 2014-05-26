@@ -21,6 +21,19 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       this.$el.attr('id', this.panelType);
       this.panelFilter = this.panelFilters[this.panelType];
     }
+    
+    var current_iteration_id = this.collection.project.get('current_iteration_id')
+    if (this.panelType === 'done') {
+      this.iterationFilter = function (iteration) {
+        return (moment(iteration.get('end_date')).diff(moment()) > 0) && (iteration.id !== current_iteration_id)
+      }
+      _.each(this.iterationList(), this.addIteration.bind(this))
+    } else if (this.panelType === 'current') {
+      this.iterationFilter = function (iteration) {
+        return iteration.id === current_iteration_id
+      }
+      this.addIteration(this.iterationList())
+    }
     this.listenTo(this.collection, 'remove', this.removeStoryShow);
     this.listenTo(this.collection, 'sync', this.reList)
     // remember to add listening to this._storyList - likely in the storyList method so it listens on init of the list
@@ -57,6 +70,11 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
         this.collection.filter(this.panelFilter);
     return this._storyList
   },
+  iterationList: function () {
+    this._iterationList = this._iterationList ||
+        this.collection.project.iterations().filter(this.iterationFilter);
+    return this._iterationList
+  },
   reList: function () {
     this._storyList = undefined;
     this.storyList();
@@ -78,6 +96,13 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     }
 
     this.addStoryShow(storyView);
+  },
+  addIteration: function (iteration) {
+    var iterationView = new Tracker.Views.IterationShow({
+      model: iteration,
+    });
+
+    this.addSubview('.story-views', iterationView);
   },
   addStoryShow: function (subview) {
     this.addSubview('.story-views', subview);

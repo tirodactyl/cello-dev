@@ -23,7 +23,7 @@ module Api
     end
 
     def show
-      @project = Project.find(params[:id]).includes(:iterations, :stories)
+      @project = Project.includes(:iterations, :stories).find(params[:id])
     
       render partial: 'api/projects/project', locals: { project: @project }
     end

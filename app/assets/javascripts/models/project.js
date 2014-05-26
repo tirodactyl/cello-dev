@@ -23,10 +23,12 @@ Tracker.Models.Project = Backbone.Model.extend({
       this.stories().set(jsonResp.stories, {parse: true});
       delete jsonResp.stories;
     }
+    
     if(jsonResp.iterations) {
       this.iterations().set(jsonResp.iterations, {parse: true});
       delete jsonResp.iterations;
     }
+    
     return jsonResp
   },
 });

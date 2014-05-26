@@ -1,6 +1,6 @@
 Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   tagName: 'div',
-  className: 'story-show',
+  className: 'story-show show',
   template: JST['stories/show'],
   buttonTemplate: JST['stories/state_buttons'],
   render: function () {
@@ -23,6 +23,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   initialize: function () {
     this.$el.addClass(this.model.get('story_state'));
     this.$el.attr('data-rank', this.model.get('story_rank'));
+    this.$el.attr('data-iteration-id', this.model.get('iteration_id'));
     if(this.model.id) { this.$el.attr('data-id', this.model.id); }
     this.listenTo(this.model, 'sync', this.saveActions);
   },

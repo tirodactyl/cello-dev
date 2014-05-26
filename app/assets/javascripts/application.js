@@ -17,6 +17,7 @@
 //= require underscore
 //= require backbone
 //= require serializeJSON
+//= require moment
 //= require tracker
 //= require_tree ./base_classes
 //= require_tree ../templates

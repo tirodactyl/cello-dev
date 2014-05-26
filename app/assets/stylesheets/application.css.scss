@@ -29,6 +29,15 @@
     border: thin solid rgb(221, 221, 221);
   }
 }
+
+.panel-body.story-views {
+  padding: 0px;
+  &> div.iteration-show {
+    position: relative;
+    border: thin solid rgb(221, 221, 221);
+  }
+}
+
 .projects-show .page-header {
   margin-top: 0px;
   h2 {
