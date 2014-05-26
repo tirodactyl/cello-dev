@@ -11,7 +11,6 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     }));
     
     if (!this.model.id) {
-      alert('not-persisted')
       this.$el.addClass('not-persisted');
     }
     
