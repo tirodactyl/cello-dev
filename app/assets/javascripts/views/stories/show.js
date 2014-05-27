@@ -37,6 +37,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     'click .story-reject': 'changeStateReject',
     'click .story-accept': 'changeStateAccept',
     'click .story-restart': 'changeStateStart',
+    'savedModel': 'saveActions'
   },
   changeStateStart: function () {
   this.changeState('started');

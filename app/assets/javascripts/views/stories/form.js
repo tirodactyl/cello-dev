@@ -32,7 +32,7 @@ Tracker.Views.StoryForm = Backbone.View.extend({
         view.$el.trigger('savedModel');
       },
       error: function (errors) {
-        alert(errors);
+        alert(errors.errors);
       }
     });
   },
