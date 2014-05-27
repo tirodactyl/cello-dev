@@ -16,12 +16,12 @@ Tracker.Models.Story = Backbone.Model.extend({
       return '';
     }
   },
-  storyPoints: ['0', '1', '2', '3'],
+  storyPoints: [0, 1, 2, 3],
   selectedStoryPointVal: function (pointVal) {
     if (pointVal === this.get('story_points')) {
       return 'selected';
     } else {
-      return '';
+      return 'banana';
     }
   }
 });

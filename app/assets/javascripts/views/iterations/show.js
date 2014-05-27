@@ -7,6 +7,10 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       iteration: this.model
     }));
     
+    if (moment(this.model.get('end_date')) < moment()) {
+      this.$('.story-views').addClass('done');
+    }
+    
     this.storiesSortable();
     
     this.attachSubviews();

@@ -38,6 +38,11 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     'click .story-accept': 'changeStateAccept',
     'click .story-restart': 'changeStateStart',
     'savedModel': 'saveActions',
+    'click .story-point-assign': 'setPoints',
+  },
+  setPoints: function (event) {
+    points = $(event.target).data('points');
+    this.model.save({ story_points: points })
   },
   changeStateStart: function () {
   this.changeState('started');
@@ -55,14 +60,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.changeState('accepted');
   },
   changeState: function (newState) {
-    var view = this;
-    var oldState = this.model.get('story_state')
-    this.model.set('story_state', newState);
-    this.model.save({
-      success: function () {
-        view.$el.toggleClass(newState + ' ' + oldState)
-      }
-    }); 
+    this.model.save({ story_state: newState });
   },
   saveActions: function () {
     this.$el.attr('data-id', this.model.id);

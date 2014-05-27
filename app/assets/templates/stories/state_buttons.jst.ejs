@@ -1,6 +1,6 @@
 <% var state = story.get('story_state') %>
 <% if (state === 'unstarted' || state === 'unscheduled') { %>
-  <% if (story.get('story_points') >= 0) { %>
+  <% if (typeof story.get('story_points') === 'number') { %>
     <button class="btn btn-primary btn-xs story-action story-start">Start</button>
   <% } else { %>
     <button class="btn btn-default btn-xs story-action story-point-assign" data-points="0">0</button>
