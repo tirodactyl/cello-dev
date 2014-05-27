@@ -13,7 +13,6 @@ class Iteration < ActiveRecord::Base
   def ensure_dates!
     unless self.start_date
       time = Time.new.localtime
-      debugger
       until time.sunday? do
         time -= 1.days
       end

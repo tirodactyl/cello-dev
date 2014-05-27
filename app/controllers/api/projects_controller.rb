@@ -25,6 +25,21 @@ module Api
     def show
       @project = Project.includes(:iterations, :stories).find(params[:id])
     
+      if !@project.current_iteration || @project.current_iteration.end_date < Time.now
+        new_iteration = @project.iterations.create
+        
+        if @project.current_iteration
+          incomplete_stories = @project.current_iteration.stories
+                .where('story_state != ?', 'accepted')
+          incomplete_stories.each do |story|
+            story.iteration_id = new_iteration.id
+            story.save!
+          end
+        end
+        
+        @project.current_iteration_id = new_iteration.id
+      end
+    
       render partial: 'api/projects/project', locals: { project: @project }
     end
 
