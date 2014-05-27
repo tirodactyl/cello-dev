@@ -29,6 +29,7 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     story.save($form.serializeJSON().story, {
       success: function () {
         stories.get(story.id) || stories.add(story);
+        view.off('cancelCreate')
         view.$el.trigger('savedModel');
       },
       error: function (errors) {
@@ -37,7 +38,9 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     });
   },
   destroyStory: function (event) {
+    event.preventDefault();
     var view = this;
     this.model.destroy();
+    this.trigger('removeStory', this)
   }
 });

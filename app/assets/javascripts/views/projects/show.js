@@ -14,7 +14,7 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   initialize: function () {
     var view = this;
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.stories(), 'moveStory', this.moveStory)
+    this.listenTo(this.model.stories(), 'change:story_state', this.moveStory)
     this.model.fetch({
       success: function () {
         view.iterationPanel('done');

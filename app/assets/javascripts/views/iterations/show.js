@@ -20,6 +20,7 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
   initialize: function () {
     var view = this;
     this.$el.attr('data-iteration-id', this.model.id);
+    this.listenTo(this.collection, 'remove', this.removeStory);
     // this.storySelector = '.story-show[data-iteration-id="' + this.model.id + '"]'
     this.listenTo(this.model, 'reList', this.reList)
     _.each(this.storyList(), function (story) {
@@ -58,21 +59,18 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
     this.addSubview('.story-views', subview);
   },
   removeStory: function (story) {
-    storyView = _.find(this.subviews('.story-views'), function (subview) {
+    var storyView = _.find(this.subviews('.story-views'), function (subview) {
       return subview.model.id === story.id;
     });
-    // this.removeStoryShow(storyView);
-    this.reList();
+    if (storyView) {
+      this.removeStoryShow(storyView)
+    }
   },
   removeStoryShow: function (subview) {
     this.removeSubview('.story-views', subview);
   },
-  findSiblingRank: function (id, pos) {
-    var $stories = $('.story-show')
-    console.log($stories.index('[data-id="' + id + '"]'))
-  },
   storiesSortable: function () {
-    var storyId, story, oldPanelTitle, newPanelTitle, newRank, oldIterationId, newIterationId;
+    var storyId, story, oldPanelTitle, newPanelType, newRank, oldIterationId, newIterationId;
     var view = this;
   
     this.$('.story-views').sortable({
@@ -82,15 +80,12 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       start: function (event, ui) {
         storyId = ui.item.attr('data-id');
         story = view.collection.get(storyId);
-        newPanelTitle = oldPanelTitle = ui.item.parents('.panel').attr('id');
-        newIterationId = oldIterationId= ui.item.parents('.iteration-show').attr('data-iteration-id');
       },
       receive: function (event, ui) {
-        newPanelTitle = ui.item.parents('.panel').attr('id');
-        newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
       },
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
+        newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
         itemIndex = ui.item.index('.story-show')
 
         var prevRank = ui.item.prev('.story-show').data('rank') ||

@@ -29,7 +29,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   },
   events: {
     'click .init-edit': 'expandForm',
-    'click .cancel-edit': 'toggleForm',
+    'click .cancel-edit': 'expandForm',
     'dblclick .story-preview': 'expandForm',
     'click .story-start': 'changeStateStart',
     'click .story-finish': 'changeStateFinish',
@@ -45,13 +45,13 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.model.save({ story_points: points })
   },
   changeStateStart: function () {
-  this.changeState('started');
+    this.changeState('started');
   },
   changeStateFinish: function () {
-  this.changeState('finished');
+    this.changeState('finished');
   },
   changeStateDeliver: function () {
-  this.changeState('delivered');
+    this.changeState('delivered');
   },
   changeStateReject: function () {
     this.changeState('rejected');
@@ -84,12 +84,13 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
         collection: this.collection
       });
       this.addSubview('.story-body', this.formView);
+      this.listenTo(this.formView, 'removeStory', this.remove)
     } else {
       this.removeSubview('.story-body', this.formView);
       this.formView = undefined;
     }
     
-    if (!this.model.id) {
+    if (this.model.id === undefined) {
       this.trigger('cancelCreate', this)
     }
   }

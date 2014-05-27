@@ -19,7 +19,6 @@ Tracker.Views.IterationsPanel = Tracker.Views.CompositeView.extend({
       this.panelFilter = this.panelFilters[this.panelType];
     }
     
-    this.listenTo(this.collection, 'remove', this.removeStoryShow);
     this.listenTo(this.collection, 'sync', this.reList)
     // remember to add listening to this._storyList - likely in the storyList method so it listens on init of the list
     
@@ -47,12 +46,6 @@ Tracker.Views.IterationsPanel = Tracker.Views.CompositeView.extend({
   reList: function () {
     this._iterationList = undefined;
     this.iterationList();
-  },
-  topRank: function () {
-    return _.first(this.subviews('.iteration-views')).topRank()
-  },
-  bottomRank: function () {
-    return _.last(this.subviews('.iteration-views')).bottomRank()
   },
   addIteration: function (iteration) {
     var iterationView = new Tracker.Views.IterationShow({

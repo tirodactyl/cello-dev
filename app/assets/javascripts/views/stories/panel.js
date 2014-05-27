@@ -20,7 +20,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.$el.attr('id', this.panelType);
     this.panelFilter = this.panelFilters[this.panelType];
     
-    this.listenTo(this.collection, 'remove', this.removeStoryShow);
+    this.listenTo(this.collection, 'remove', this.removeStory);
     this.listenTo(this.collection, 'sync', this.reList)
     // remember to add listening to this._storyList - likely in the storyList method so it listens on init of the list
     
@@ -57,23 +57,31 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     if (!story.id) {
       this.listenTo(storyView, 'cancelCreate', this.removeStoryShow)
     }
+    
+    this.listenTo(storyView, 'removeStory', this.removeStoryShow)
 
     this.addStoryShow(storyView);
   },
   addStoryShow: function (subview) {
     this.addSubview('.story-views', subview);
   },
-  removeStoryShow: function (story) {
-    storyView = _.find(this.subviews('.story-views'), function (subview) {
+  removeStory: function (story) {
+    var storyView = _.find(this.subviews('.story-views'), function (subview) {
       return subview.model.id === story.id;
     });
+    if (storyView) {
+      this.removeStoryShow(storyView)
+    }
+  },
+  removeStoryShow: function (storyView) {
     this.removeSubview('.story-views', storyView);
+    this.reList();
   },
   
   /// ABANDON HOPE ALL YE WHO ENTER HERE
   
   storiesSortable: function () {
-    var storyId, story, oldPanelTitle, newPanelTitle, newRank, oldIterationId, newIterationId;
+    var storyId, story, oldPanelType, newPanelType, newRank, oldIterationId, newIterationId;
     var view = this;
   
     this.$('.story-views').sortable({
@@ -83,14 +91,13 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       start: function (event, ui) {
         storyId = ui.item.attr('data-id');
         story = view.collection.get(storyId);
-        oldPanelTitle = ui.item.parents('.stories-panel').attr('title');
-        newPanelTitle = oldPanelTitle
+        oldPanelType = ui.item.parents('.stories-panel').attr('id');
       },
       receive: function (event, ui) {
-        newPanelTitle = ui.item.parents('.stories-panel').attr('title');
       },
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
+        newPanelType = ui.item.parents('.stories-panel').attr('id');
         itemIndex = ui.item.index('.story-show')
 
         var prevRank = ui.item.prev('.story-show').data('rank') ||
@@ -102,6 +109,14 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
 
         if (story.get('iteration_id') !== newIterationId) {
           story.set('iteration_id', newIterationId);
+        }
+        
+        if (oldPanelType !== newPanelType) {
+          if (oldPanelType === 'icebox') {
+            story.set('story_state', 'unstarted')
+          } else if (newPanelType === 'icebox'){
+            story.set('story_state', 'unscheduled')
+          }
         }
         
         newRank = ((prevRank + postRank) / 2);
