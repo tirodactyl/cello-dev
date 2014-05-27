@@ -45,7 +45,7 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   newStory: function () {
     if ($('.story-form.not-persisted').length !== 0) { return }
     var newStory = new Tracker.Models.Story({
-      story_rank: (this.model.stories().length + 1),
+      story_rank: Math.floor(this.model.stories().last().get('story_rank') + 1),
       project_id: this.model.id,
     });
     _.find(this.subviews('#project-panels'), function (subview) {

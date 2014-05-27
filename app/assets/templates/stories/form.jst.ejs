@@ -36,6 +36,7 @@
   <div class="input-group">
     <label for="story-points" class="input-group-addon">Points:</label>
     <select id="story-points" name="story[story_points]" class="form-control">
+      <option value="">unestimated</option>
       <% _.each(storyPointVals, function (storyPointVal) { %>
       <option <%= story.selectedStoryPointVal(storyPointVal) %> value="<%= storyPointVal %>">
         <%= storyPointVal %>

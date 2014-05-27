@@ -15,16 +15,22 @@
 
 @import "bootstrap";
 
-.panel.stories-panel {
-  padding: 0px;
-  .panel-heading {
-    font-size: 20px;
-  }
-}
-.panel.iterations-panel {
-  padding: 0px;
-  .panel-heading {
-    font-size: 20px;
+#project-panels {
+  overflow-x: scroll;
+  padding: 0pc 1pc;
+  
+  &> .panel {
+    padding: 0px;
+    margin: 1pc;
+    width: 400px;
+    float: left;
+    
+    .panel-heading {
+      font-size: 20px;
+    }
+    .story-views {
+      min-height: 166px;
+    }
   }
 }
 

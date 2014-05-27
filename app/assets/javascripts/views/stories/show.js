@@ -37,7 +37,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     'click .story-reject': 'changeStateReject',
     'click .story-accept': 'changeStateAccept',
     'click .story-restart': 'changeStateStart',
-    'savedModel': 'saveActions'
+    'savedModel': 'saveActions',
   },
   changeStateStart: function () {
   this.changeState('started');
@@ -67,6 +67,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   saveActions: function () {
     this.$el.attr('data-id', this.model.id);
     this.$el.attr('data-rank', this.model.get('story_rank'));
+    this.$el.attr('data-iteration-id', this.model.get('iteration_id'));
     if (this.formView) { this.expandForm(); }
     this.render();
   },
