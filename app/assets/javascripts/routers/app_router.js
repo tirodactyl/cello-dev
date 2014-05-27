@@ -20,7 +20,7 @@ Tracker.Routers.AppRouter = Backbone.Router.extend({
   },
   projectShow: function (id) {
     var showView = new Tracker.Views.ProjectShow({
-      model: Tracker.Collections.projects.getOrFetch(id)
+      model: new Tracker.Models.Project({id: id})
     });
     this._swapView(showView);
   },

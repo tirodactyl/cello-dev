@@ -1,7 +1,7 @@
-Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
+Tracker.Views.IterationsPanel = Tracker.Views.CompositeView.extend({
   tagName: 'div',
-  className: 'panel panel-default col-lg-4 stories-panel',
-  template: JST['stories/panel'],
+  className: 'panel panel-default col-lg-4 iterations-panel',
+  template: JST['iterations/panel'],
   render: function () {
     this.$el.html(this.template({
       panel: this
@@ -14,7 +14,6 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     return this;
   },
   initialize: function (options) {
-    var storyView;
     var view = this;
     if (options && options.panelType) {
       this.panelType = options.panelType;
@@ -26,29 +25,30 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.listenTo(this.collection, 'sync', this.reList)
     // remember to add listening to this._storyList - likely in the storyList method so it listens on init of the list
     
-    _.each(this.storyList(), function (story) {
-      view.addStory(story);
+    _.each(this.iterationList(), function (iteration) {
+      view.addIteration(iteration);
     });
   },
   events: {
     
   },
   panelFilters: {
-    icebox: function (model) {
-      return model.get('story_state') === 'unscheduled';
+    current: function (iteration) {
+      return iteration.id === this.collection.project.get('current_iteration_id');
     },
-    backlog: function (model) {
-      return model.get('story_state') === 'unstarted';
-    },
+    done: function (iteration) {
+      return (moment(iteration.get('end_date')).diff(moment()) < 0) &&
+          (iteration.id !== this.collection.project.get('current_iteration_id'));
+    }
   },
-  storyList: function () {
-    this._storyList = this._storyList ||
-        this.collection.filter(this.panelFilter);
-    return this._storyList
+  iterationList: function () {
+    this._iterationList = this._iterationList ||
+        this.collection.project.iterations().filter(this.panelFilter.bind(this));
+    return this._iterationList
   },
   reList: function () {
-    this._storyList = undefined;
-    this.storyList();
+    this._iterationList = undefined;
+    this.iterationList();
   },
   topRank: function () {
     return _.first(this.storyList()).get('story_rank')
@@ -56,23 +56,16 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
   bottomRank: function () {
     return _.last(this.storyList()).get('story_rank')
   },
-  addStory: function (story) {
-    var storyView = new Tracker.Views.StoryShow({
-      model: story,
+  addIteration: function (iteration) {
+    var iterationView = new Tracker.Views.IterationShow({
+      model: iteration,
       collection: this.collection
     });
-    
-    if (!story.id) {
-      this.listenTo(storyView, 'cancelCreate', this.removeStoryShow)
-    }
 
-    this.addStoryShow(storyView);
+    this.addSubview('.iteration-views', iterationView);
   },
-  addStoryShow: function (subview) {
-    this.addSubview('.story-views', subview);
-  },
-  removeStoryShow: function (subview) {
-    this.removeSubview('.story-views', subview);
+  removeIteration: function (subview) {
+    this.removeSubview('.iteration-views', subview);
   },
   
   /// PROBLEMS BEYOND THIS POINT

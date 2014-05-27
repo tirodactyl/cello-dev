@@ -1,6 +1,9 @@
 Tracker.Collections.Projects = Backbone.Collection.extend({
   url: 'api/projects',
   model: Tracker.Models.Project,
+  comparator: function (project) {
+    return moment(project.get('updated_at')) * -1
+  },
   getOrFetch: function (id) {
     var projects = this;
     var project;

@@ -21,20 +21,25 @@
     font-size: 20px;
   }
 }
-
-.panel-body.story-views {
+.panel.iterations-panel {
   padding: 0px;
-  &> div.story-show {
-    position: relative;
-    border: thin solid rgb(221, 221, 221);
+  .panel-heading {
+    font-size: 20px;
   }
 }
 
-.panel-body.story-views {
+.panel-body {
   padding: 0px;
+  div.story-show {
+    position: relative;
+    border: thin solid rgb(221, 221, 221);
+  }
   &> div.iteration-show {
     position: relative;
     border: thin solid rgb(221, 221, 221);
+    &> div {
+      padding: 0px;
+    }
   }
 }
 
@@ -48,7 +53,7 @@
   }
 }
 
-.no_selection {
+.no-selection {
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */

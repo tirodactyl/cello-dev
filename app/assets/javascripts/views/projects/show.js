@@ -15,12 +15,12 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     var view = this;
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.stories(), 'moveStory', this.moveStory)
-    this.model.stories().fetch({
+    this.model.fetch({
       success: function () {
-        view.showPanel('done');
-        view.showPanel('current');
-        view.showPanel('backlog');
-        view.showPanel('icebox');
+        view.iterationPanel('done');
+        view.iterationPanel('current');
+        view.storyPanel('backlog');
+        view.storyPanel('icebox');
       }
     });
   },
@@ -28,8 +28,15 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     'showStories': 'showStories',
     'click #add-story': 'newStory',
   },
-  showPanel: function (panelType) {
+  storyPanel: function (panelType) {
     var subview = new Tracker.Views.StoriesPanel({
+      collection: this.model.stories(),
+      panelType: panelType,
+    })
+    this.addSubview('#project-panels', subview)
+  },
+  iterationPanel: function (panelType) {
+    var subview = new Tracker.Views.IterationsPanel({
       collection: this.model.stories(),
       panelType: panelType,
     })

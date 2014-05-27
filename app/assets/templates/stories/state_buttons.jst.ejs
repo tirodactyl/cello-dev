@@ -18,5 +18,5 @@
 <% } else if (state === 'rejected') { %>
   <button class="btn btn-warning btn-xs story-action story-restart">Restart</button>
 <% } else if (state === 'accepted') { %>
-  <button class="btn btn-default btn-xs story-accepted-date btn-disabled">Accepted: <%= story.get('date_completed') %></button>
+  <button class="btn btn-default btn-xs story-accepted-date btn-disabled">Accepted: <%= moment(story.get('date_completed')).format('DD MMM [@]HH[:]MM') %></button>
 <% } %>
