@@ -1,6 +1,6 @@
 Tracker.Views.StoryForm = Backbone.View.extend({
   tagName: 'div',
-  className: 'story-form form-group',
+  className: 'story-form clearfix',
   template: JST['stories/form'],
   render: function () {
     this.$el.html(this.template({
@@ -26,11 +26,11 @@ Tracker.Views.StoryForm = Backbone.View.extend({
     var story = this.model;
     var stories = this.collection;
     var view = this;
-    story.save($form.serializeJSON().story, {
+    this.model.save($form.serializeJSON().story, {
       success: function () {
         stories.get(story.id) || stories.add(story);
         view.off('cancelCreate')
-        view.$el.trigger('savedModel');
+        story.trigger('savedModel');
       },
       error: function (errors) {
         alert(errors.errors);

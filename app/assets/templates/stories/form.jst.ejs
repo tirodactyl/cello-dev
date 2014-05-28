@@ -7,10 +7,14 @@
   <button class="btn btn-md btn-danger delete-story pull-right">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
-  <% } %>
   <button class="btn btn-md btn-warning cancel-edit pull-right">
     <span class="glyphicon glyphicon-ban-circle"></span>
   </button>
+  <% } else { %>
+    <button class="btn btn-md btn-warning cancel-create pull-right">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+    </button>
+  <% } %>
 
   <div class="form-group">
     <label for="story-type" class="control-label col-md-2">Type:</label>

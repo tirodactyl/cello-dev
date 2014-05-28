@@ -12,24 +12,28 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
       story: this.model
     }));
     
-    if (!this.model.id && !this.formView) { this.toggleForm(); }
+    if (!this.model.id && !this.formView) {
+      this.toggleForm();
+      this.$('.init-edit').addClass('hidden');
+    }
     
     if (this.formView) { this.togglePreview(); }
-    
+        
     this.attachSubviews();
     
     return this;
   },
   initialize: function () {
+    this.listenTo(this.model, 'savedModel sync', this.saveActions);
     this.$el.addClass(this.model.get('story_state'));
     this.$el.attr('data-rank', this.model.get('story_rank'));
     this.$el.attr('data-iteration-id', this.model.get('iteration_id'));
     if(this.model.id) { this.$el.attr('data-id', this.model.id); }
-    this.listenTo(this.model, 'change sync', this.saveActions);
   },
   events: {
     'click .init-edit': 'expandForm',
     'click .cancel-edit': 'expandForm',
+    'click .cancel-create': 'cancelCreation',
     'dblclick .story-preview': 'expandForm',
     'click .story-start': 'changeStateStart',
     'click .story-finish': 'changeStateFinish',
@@ -41,8 +45,8 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     'click .story-point-assign': 'setPoints',
   },
   setPoints: function (event) {
-    points = $(event.target).data('points');
-    this.model.save({ story_points: points })
+    var points = $(event.target).data('points');
+    this.model.save({ story_points: points });
   },
   changeStateStart: function () {
     this.changeState('started');
@@ -65,7 +69,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.model.save({ story_state: newState }, {
       success: function () {
         var current = view.collection.project.get('current_iteration_id') !== view.model.get('iteration_id');
-        var accepted = (newState === 'accepted')
+        var accepted = (newState === 'accepted');
         var unstarted = (oldState === 'unstarted' || oldState === 'unscheduled');
         if (unstarted || accepted) {
           view.remove();
@@ -88,7 +92,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.toggleForm();
   },
   togglePreview: function () {
-    this.$('.init-edit').toggleClass('glyphicon-chevron-right glyphicon-chevron-down');
+    this.$('.init-edit').toggleClass('glyphicon-chevron-right glyphicon-chevron-down').removeClass('hidden');
     this.$('.story-preview').toggleClass('show hidden');
   },
   toggleForm: function () {
@@ -98,22 +102,16 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
         collection: this.collection
       });
       this.addSubview('.story-body', this.formView);
-      this.listenTo(this.formView, 'removeStory', this.remove)
+      this.listenTo(this.formView, 'removeStory', this.remove);
     } else {
       this.removeSubview('.story-body', this.formView);
       this.formView = undefined;
     }
-    
+  },
+  cancelCreation: function () {
+    event.preventDefault();
     if (this.model.id === undefined) {
-      this.trigger('cancelCreate', this)
+      this.trigger('cancelCreate', this);
     }
   }
-  // addProject: function (project) {
-  //   this.render();
-  // },
-  // removeProject: function (project) {
-  //   var selector = 'li.project#' + project.id;
-  //   $(this).find(selector).remove();
-  //   this.render();
-  // }
 });
