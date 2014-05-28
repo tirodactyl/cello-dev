@@ -25,7 +25,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.$el.attr('data-rank', this.model.get('story_rank'));
     this.$el.attr('data-iteration-id', this.model.get('iteration_id'));
     if(this.model.id) { this.$el.attr('data-id', this.model.id); }
-    this.listenTo(this.model, 'sync', this.saveActions);
+    this.listenTo(this.model, 'change sync', this.saveActions);
   },
   events: {
     'click .init-edit': 'expandForm',
@@ -61,9 +61,13 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
   },
   changeState: function (newState) {
     var view = this;
+    var oldState = this.model.get('story_state');
     this.model.save({ story_state: newState }, {
       success: function () {
-        if (newState !== 'unstarted' || newState !== 'unscheduled') {
+        var current = view.collection.project.get('current_iteration_id') !== view.model.get('iteration_id');
+        var accepted = (newState === 'accepted')
+        var unstarted = (oldState === 'unstarted' || oldState === 'unscheduled');
+        if (unstarted || accepted) {
           view.remove();
           view.model.trigger('toCurrent', view.model);
         }

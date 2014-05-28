@@ -56,7 +56,8 @@ module Api
     private
     def story_params
       params.require(:story).permit(:id, :title, :description, :story_type,
-            :story_state, :story_rank, :story_points, :project_id, :requester_id, :owner_id)
+            :story_state, :story_rank, :story_points, :project_id,
+            :iteration_id, :requester_id, :owner_id)
     end
   end
 end

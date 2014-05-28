@@ -9,14 +9,14 @@
     <button class="btn btn-default btn-xs story-action story-point-assign" data-points="3">3</button>
   <% } %>
 <% } else if (state === 'started') { %>
-  <button class="btn btn-success btn-xs story-action story-finish">Finish</button>
+  <button class="btn btn-info btn-xs story-action story-finish">Finish</button>
 <% } else if (state === 'finished') { %>
   <button class="btn btn-warning btn-xs story-action story-deliver">Deliver</button>
 <% } else if (state === 'delivered') { %>
-  <button class="btn btn-primary btn-xs story-action story-accept"><span class="glyphicon glyphicon-ok"></button>
-  <button class="btn btn-primary btn-xs story-action story-reject"><span class="glyphicon glyphicon-ban-circle"></button>
+  <button class="btn btn-success btn-xs story-action story-accept"><span class="glyphicon glyphicon-ok"></button>
+  <button class="btn btn-danger btn-xs story-action story-reject"><span class="glyphicon glyphicon-ban-circle"></button>
 <% } else if (state === 'rejected') { %>
   <button class="btn btn-warning btn-xs story-action story-restart">Restart</button>
 <% } else if (state === 'accepted') { %>
-  <button class="btn btn-default btn-xs story-accepted-date" disabled>Accepted: <%= moment(story.get('date_completed')).format('DD MMM [@]HH[:]MM') %></button>
+  <button class="btn btn-default btn-xs story-accepted-date" disabled>Accepted: <%= moment(story.get('date_completed')).format('DD MMM [@]hh:mm') %></button>
 <% } %>

@@ -53,9 +53,14 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     }).addStory(newStory);
   },
   toCurrent: function (story) {
-    story.save({ iteration_id: this.model.get('current_iteration_id') })
+    var options = { reRank: undefined };
+    if (story.iteration_id !== this.model.get('current_iteration_id')) {
+      story.save({ iteration_id: this.model.get('current_iteration_id') })
+      options.rerank = true;
+    }
+    
     _.find(this.subviews('#project-panels'), function (subview) {
       return subview.panelType === 'current';
-    }).addStory(story);
+    }).addStory(story, options);
   },
 });

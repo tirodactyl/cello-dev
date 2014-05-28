@@ -27,6 +27,8 @@
     width: 500px;
     float: left;
     color: rgb(200, 200, 200);
+    overflow-x: scroll;
+    min-height: 400;
     
     .panel-heading {
       font-size: 20px;
@@ -64,8 +66,14 @@
   &.started,&.finished,&.delivered {
     background: #5E4948;
   }
-  &.unstarted,&.rejected {
+  &.unstarted {
     background: #344454;
+  }
+  &.rejected {
+    background: #D4C872;
+    *:not(button) {
+      color: #2E3338;
+    }
   }
   &.unscheduled {
     background: #C8C8C8;
@@ -91,18 +99,18 @@
 //  }
 }
 
-.story-buttons button {
-  &.story-accept {
-    color: #148714;
+//.story-buttons button {
+//  &.story-accept {
+//    color: #148714;
 //    background: #284B7E;
 //    &:hover {
 //      background: #052F6D;
 //    }
-  }
-  &.story-reject {
-    color: #871414;
-  }
-}
+//  }
+//  &.story-reject {
+//    color: #871414;
+//  }
+//}
 
 .panel-body {
   padding: 0px;

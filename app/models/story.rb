@@ -33,8 +33,7 @@ class Story < ActiveRecord::Base
   
   belongs_to :iteration, inverse_of: :stories
   
-  # Following association built when accepted.
-  # belongs_to :iteration, inverse_of: :stories
+
   
   
   #NOTE that bugs must be delivered and accepted (like features)
@@ -58,6 +57,7 @@ class Story < ActiveRecord::Base
     self.story_state ||= 'unscheduled'
   end
   def ensure_date_completed!
-    self.date_completed ||= Time.now
+    debugger
+    self.date_completed ||= DateTime.now
   end
 end

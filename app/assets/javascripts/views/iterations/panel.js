@@ -64,7 +64,7 @@ Tracker.Views.IterationsPanel = Tracker.Views.CompositeView.extend({
     });
     iteration.removeStory(story);
   },
-  addStory: function (story) {
-    this.subviews('.iteration-views')[0].addStory(story)
+  addStory: function (story, options) {
+    this.subviews('.iteration-views')[0].addStory(story, options)
   }
 });

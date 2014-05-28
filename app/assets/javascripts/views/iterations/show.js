@@ -7,10 +7,6 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       iteration: this.model
     }));
     
-    // if (moment(this.model.get('end_date')) < moment()) {
-    //   this.$('.story-views').addClass('done');
-    // }
-    
     this.storiesSortable();
     
     this.attachSubviews();
@@ -47,7 +43,7 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
     this.$('.iteration-toggle').toggleClass('glyphicon-chevron-right glyphicon-chevron-down');
     this.$('.story-views').toggleClass('show hide');
   },
-  addStory: function (story) {
+  addStory: function (story, options) {
     var storyView = new Tracker.Views.StoryShow({
       model: story,
       collection: this.collection
@@ -56,10 +52,11 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
     if (state === 'unstarted') {
       this.addSubview('.story-views.unstarted', storyView);
     } else if (state === 'accepted') {
-      this.addSubview('.story-views.done', storyView)
+      this.addSubview('.story-views.done', storyView);
     } else {
-      this.addSubview('.story-views.started', storyView)
+      this.addSubview('.story-views.started', storyView);
     }
+    if (options && options.reRank) { this.rank(storyView.model, storyView.$el); }
   },
   // addStoryShow: function (subview) {
   //   this.addSubview('.story-views', subview);
@@ -76,34 +73,44 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
     this.removeSubview('.story-views', subview);
   },
   rank: function (story, $el) {
-    itemIndex = ui.item.index('.story-show')
-    var prevRank = ui.item.prev('.story-show').data('rank') ||
+    var itemIndex = $el.index('.story-show')
+    var prevRank = $el.prev('.story-show').data('rank') ||
         $($('.story-show')[itemIndex - 1]).data('rank');
-    var postRank = ui.item.next('.story-show').data('rank') ||
+    var postRank = $el.next('.story-show').data('rank') ||
         $($('.story-show')[itemIndex + 1]).data('rank');
     if (!prevRank || prevRank < 0) { prevRank = 0; }
     if (!postRank || postRank < 0) { postRank = prevRank + 1; }
     
-    newRank = ((prevRank + postRank) / 2);
+    var newRank = ((prevRank + postRank) / 2);
     story.save({story_rank: newRank});
   },
   storiesSortable: function () {
-    var storyId, story, oldPanelTitle, newPanelType, newRank, oldIterationId, newIterationId;
+    var storyId, story, oldPanelType, newPanelType, oldIterationId, newIterationId;
     var view = this;
   
     this.$('.story-views.unstarted').sortable({
-      connectWith: '.story-views:not(.done)',
+      connectWith: '.story-views.unstarted',
       tolerance: 'pointer',
       items: '.story-show:not(.accepted)',
       start: function (event, ui) {
         storyId = ui.item.attr('data-id');
         story = view.collection.get(storyId);
+        oldPanelType = ui.item.parents('.stories-panel').attr('id');
       },
       receive: function (event, ui) {
       },
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
+        newPanelType = ui.item.parents('.stories-panel').attr('id');
         newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
+        
+        if (oldPanelType !== newPanelType) {
+          if (oldPanelType === 'icebox') {
+            story.set('story_state', 'unstarted')
+          } else if (newPanelType === 'icebox'){
+            story.set('story_state', 'unscheduled')
+          }
+        }
         
         if (story.get('iteration_id') !== newIterationId) {
           story.set('iteration_id', newIterationId);
@@ -125,22 +132,8 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       },
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
-        newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
-        itemIndex = ui.item.index('.story-show')
 
-        var prevRank = ui.item.prev('.story-show').data('rank') ||
-            $($('.story-show')[itemIndex - 1]).data('rank');
-        var postRank = ui.item.next('.story-show').data('rank') ||
-            $($('.story-show')[itemIndex + 1]).data('rank');
-        if (!prevRank || prevRank < 0) { prevRank = 0; }
-        if (!postRank || postRank < 0) { postRank = prevRank + 1; }
-        
-        if (story.get('iteration_id') !== newIterationId) {
-          story.set('iteration_id', newIterationId);
-        }
-        
-        newRank = ((prevRank + postRank) / 2);
-        story.save({story_rank: newRank});
+        view.rank(story, ui.item);
       },
     });
   }
