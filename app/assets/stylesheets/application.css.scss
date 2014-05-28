@@ -15,6 +15,8 @@
 
 @import "bootstrap";
 
+@import "bootswatch-slate";
+
 #project-panels {
   overflow-x: scroll;
   padding: 0pc 1pc;
@@ -22,8 +24,9 @@
   &> .panel {
     padding: 0px;
     margin: 1pc;
-    width: 400px;
+    width: 500px;
     float: left;
+    color: rgb(200, 200, 200);
     
     .panel-heading {
       font-size: 20px;
@@ -31,35 +34,81 @@
   }
 }
 
+.story-views.unstarted {
+  min-height: 72px;
+}
+
 .story-show {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  position: relative;
+  margin: 2px;
+  -webkit-transition: padding 200ms linear 0.2s;
+  -moz-transition: padding 200ms linear 0.2s;
+  -o-transition: padding 200ms linear 0.2s;
+  transition: padding 200ms linear 0.2s;
+  
+  &:hover {
+
+  }
+  
   .story-title {
     padding: 1px;
-    width: 270;
+    width: 310px;
   }
   
   &.accepted {
-    background: #33AD5C;
+    background: #545E48;
   }
   &.started,&.finished,&.delivered {
-    background: #FFCC00;
+    background: #5E4948;
   }
   &.unstarted,&.rejected {
-    background: #7CA6CF;
+    background: #344454;
   }
   &.unscheduled {
-    background: #ADCDEE;
+    background: #C8C8C8;
+    *:not(button) {
+      color: #2E3338;
+    }
+  }
+}
+
+.story-form {
+  background: #5E5948;
+  margin: 0px;
+  padding: 1pc;
+  form input:not(.btn-submit),select,textarea {
+//    background-color: rgba(255, 255, 255, 0.5);
+  }
+  button.btn-warning {
+    margin-left: 10px;
+  }
+//  * {
+//    margin: 2px;
+//    border: 0px;
+//  }
+}
+
+.story-buttons button {
+  &.story-accept {
+    color: #148714;
+//    background: #284B7E;
+//    &:hover {
+//      background: #052F6D;
+//    }
+  }
+  &.story-reject {
+    color: #871414;
   }
 }
 
 .panel-body {
   padding: 0px;
-  div.story-show {
-    position: relative;
-    border: thin solid rgb(221, 221, 221);
-  }
   &> div.iteration-show {
     position: relative;
-    border: thin solid rgb(221, 221, 221);
+//    border: thin solid rgb(221, 221, 221);
     &> div {
       padding: 0px;
     }
@@ -68,6 +117,7 @@
 
 .init-edit,.iteration-toggle {
   margin-right: 1pc;
+  margin-top: 3px;
 }
 
 .projects-show .page-header {

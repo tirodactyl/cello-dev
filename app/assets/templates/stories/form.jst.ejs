@@ -2,18 +2,18 @@
   <input type="hidden" name="story[project_id]" value="<%= story.get('project_id') %>">
   <input class="form-control" name="story[title]" placeholder="Story Title"
       value="<%= story.get('title') %>">
-  <input type=submit class="btn btn-xs btn-submit submit" value="Save">
+  <input type=submit class="btn btn-md btn-submit submit pull-right" value="Save">
   <% if(story.id) { %>
-  <button class="btn btn-xs btn-danger delete-story">
+  <button class="btn btn-md btn-danger delete-story pull-right">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
   <% } %>
-  <button class="btn btn-xs btn-warning cancel-edit">
+  <button class="btn btn-md btn-warning cancel-edit pull-right">
     <span class="glyphicon glyphicon-ban-circle"></span>
   </button>
 
   <div class="input-group">
-    <label for="story-type" class="input-group-addon">Type:</label>
+    <span for="story-type" class="input-group-addon">Type:</span>
     <select id="story-type" name="story[story_type]" class="form-control">
       <% _.each(storyTypes, function (storyType) { %>
       <option <%= story.selectedStoryType(storyType) %> value="<%= storyType %>">

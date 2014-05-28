@@ -13,8 +13,8 @@
 <% } else if (state === 'finished') { %>
   <button class="btn btn-warning btn-xs story-action story-deliver">Deliver</button>
 <% } else if (state === 'delivered') { %>
-  <button class="btn btn-success btn-xs story-action story-accept">Accept</button>
-  <button class="btn btn-warning btn-xs story-action story-reject">Reject</button>
+  <button class="btn btn-primary btn-xs story-action story-accept"><span class="glyphicon glyphicon-ok"></button>
+  <button class="btn btn-primary btn-xs story-action story-reject"><span class="glyphicon glyphicon-ban-circle"></button>
 <% } else if (state === 'rejected') { %>
   <button class="btn btn-warning btn-xs story-action story-restart">Restart</button>
 <% } else if (state === 'accepted') { %>

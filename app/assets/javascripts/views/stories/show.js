@@ -71,6 +71,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     });
   },
   saveActions: function () {
+    this.$el.removeClass(this.model.storyStates.join(' '));
     this.$el.addClass(this.model.get('story_state'));
     this.$el.attr('data-id', this.model.id);
     this.$el.attr('data-rank', this.model.get('story_rank'));
