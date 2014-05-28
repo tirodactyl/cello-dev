@@ -28,9 +28,26 @@
     .panel-heading {
       font-size: 20px;
     }
-    .story-views {
-      min-height: 166px;
-    }
+  }
+}
+
+.story-show {
+  .story-title {
+    padding: 1px;
+    width: 270;
+  }
+  
+  &.accepted {
+    background: #33AD5C;
+  }
+  &.started,&.finished,&.delivered {
+    background: #FFCC00;
+  }
+  &.unstarted,&.rejected {
+    background: #7CA6CF;
+  }
+  &.unscheduled {
+    background: #ADCDEE;
   }
 }
 

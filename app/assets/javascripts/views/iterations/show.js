@@ -7,9 +7,9 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       iteration: this.model
     }));
     
-    if (moment(this.model.get('end_date')) < moment()) {
-      this.$('.story-views').addClass('done');
-    }
+    // if (moment(this.model.get('end_date')) < moment()) {
+    //   this.$('.story-views').addClass('done');
+    // }
     
     this.storiesSortable();
     
@@ -52,12 +52,18 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       model: story,
       collection: this.collection
     });
-
-    this.addStoryShow(storyView);
+    var state = story.get('story_state');
+    if (state === 'unstarted') {
+      this.addSubview('.story-views.unstarted', storyView);
+    } else if (state === 'accepted') {
+      this.addSubview('.story-views.done', storyView)
+    } else {
+      this.addSubview('.story-views.started', storyView)
+    }
   },
-  addStoryShow: function (subview) {
-    this.addSubview('.story-views', subview);
-  },
+  // addStoryShow: function (subview) {
+  //   this.addSubview('.story-views', subview);
+  // },
   removeStory: function (story) {
     var storyView = _.find(this.subviews('.story-views'), function (subview) {
       return subview.model.id === story.id;
@@ -69,12 +75,46 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
   removeStoryShow: function (subview) {
     this.removeSubview('.story-views', subview);
   },
+  rank: function (story, $el) {
+    itemIndex = ui.item.index('.story-show')
+    var prevRank = ui.item.prev('.story-show').data('rank') ||
+        $($('.story-show')[itemIndex - 1]).data('rank');
+    var postRank = ui.item.next('.story-show').data('rank') ||
+        $($('.story-show')[itemIndex + 1]).data('rank');
+    if (!prevRank || prevRank < 0) { prevRank = 0; }
+    if (!postRank || postRank < 0) { postRank = prevRank + 1; }
+    
+    newRank = ((prevRank + postRank) / 2);
+    story.save({story_rank: newRank});
+  },
   storiesSortable: function () {
     var storyId, story, oldPanelTitle, newPanelType, newRank, oldIterationId, newIterationId;
     var view = this;
   
-    this.$('.story-views').sortable({
+    this.$('.story-views.unstarted').sortable({
       connectWith: '.story-views:not(.done)',
+      tolerance: 'pointer',
+      items: '.story-show:not(.accepted)',
+      start: function (event, ui) {
+        storyId = ui.item.attr('data-id');
+        story = view.collection.get(storyId);
+      },
+      receive: function (event, ui) {
+      },
+      // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
+      stop: function (event, ui) {
+        newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
+        
+        if (story.get('iteration_id') !== newIterationId) {
+          story.set('iteration_id', newIterationId);
+        }
+        
+        view.rank(story, ui.item);
+      },
+    });
+    
+    this.$('.story-views.started').sortable({
+      connectWith: '.story-views.started',
       tolerance: 'pointer',
       items: '.story-show:not(.accepted)',
       start: function (event, ui) {

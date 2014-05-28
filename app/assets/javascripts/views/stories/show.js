@@ -8,7 +8,7 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
       story: this.model
     }));
     
-    this.$('.story-buttons').append(this.buttonTemplate({
+    this.$('.story-buttons').html(this.buttonTemplate({
       story: this.model
     }));
     
@@ -60,9 +60,18 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     this.changeState('accepted');
   },
   changeState: function (newState) {
-    this.model.save({ story_state: newState });
+    var view = this;
+    this.model.save({ story_state: newState }, {
+      success: function () {
+        if (newState !== 'unstarted' || newState !== 'unscheduled') {
+          view.remove();
+          view.model.trigger('toCurrent', view.model);
+        }
+      }
+    });
   },
   saveActions: function () {
+    this.$el.addClass(this.model.get('story_state'));
     this.$el.attr('data-id', this.model.id);
     this.$el.attr('data-rank', this.model.get('story_rank'));
     this.$el.attr('data-iteration-id', this.model.get('iteration_id'));

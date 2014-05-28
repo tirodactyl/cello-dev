@@ -14,7 +14,7 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   initialize: function () {
     var view = this;
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.stories(), 'change:story_state', this.moveStory)
+    this.listenTo(this.model.stories(), 'toCurrent', this.toCurrent)
     this.model.fetch({
       success: function () {
         view.iterationPanel('done');
@@ -39,8 +39,8 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     var subview = new Tracker.Views.IterationsPanel({
       collection: this.model.stories(),
       panelType: panelType,
-    })
-    this.addSubview('#project-panels', subview)
+    });
+    this.addSubview('#project-panels', subview);
   },
   newStory: function () {
     if ($('.story-form.not-persisted').length !== 0) { return }
@@ -52,7 +52,10 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
       return subview.panelType === 'icebox';
     }).addStory(newStory);
   },
-  moveStory: function (view, panelTo) {
-    this.subviews()
+  toCurrent: function (story) {
+    story.save({ iteration_id: this.model.get('current_iteration_id') })
+    _.find(this.subviews('#project-panels'), function (subview) {
+      return subview.panelType === 'current';
+    }).addStory(story);
   },
 });
