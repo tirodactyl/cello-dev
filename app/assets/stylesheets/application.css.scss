@@ -71,13 +71,13 @@
   }
   &.rejected {
     background: #D4C872;
-    *:not(button) {
+    .story-preview:not(button),.init-edit {
       color: #2E3338;
     }
   }
   &.unscheduled {
     background: #C8C8C8;
-    *:not(button) {
+    .story-preview:not(button),.init-edit {
       color: #2E3338;
     }
   }
@@ -85,10 +85,10 @@
 
 .story-form {
   background: #5E5948;
-  margin: 0px;
+  margin: -2px -2px -2px 0px;
   padding: 1pc;
-  form input:not(.btn-submit),select,textarea {
-//    background-color: rgba(255, 255, 255, 0.5);
+  form input:not(.submit),select,textarea {
+    background-color: rgba(255, 255, 255, 0.5);
   }
   button.btn-warning {
     margin-left: 10px;

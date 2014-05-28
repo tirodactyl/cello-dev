@@ -1,8 +1,8 @@
-<form>
+<form class="form-horizontal" role="form">
   <input type="hidden" name="story[project_id]" value="<%= story.get('project_id') %>">
   <input class="form-control" name="story[title]" placeholder="Story Title"
       value="<%= story.get('title') %>">
-  <input type=submit class="btn btn-md btn-submit submit pull-right" value="Save">
+  <input type=submit class="btn btn-md btn-primary submit pull-right" value="Save">
   <% if(story.id) { %>
   <button class="btn btn-md btn-danger delete-story pull-right">
     <span class="glyphicon glyphicon-trash"></span>
@@ -12,9 +12,9 @@
     <span class="glyphicon glyphicon-ban-circle"></span>
   </button>
 
-  <div class="input-group">
-    <span for="story-type" class="input-group-addon">Type:</span>
-    <select id="story-type" name="story[story_type]" class="form-control">
+  <div class="form-group">
+    <label for="story-type" class="control-label col-md-2">Type:</label>
+    <select id="story-type" name="story[story_type]" class="form-control col-md-3">
       <% _.each(storyTypes, function (storyType) { %>
       <option <%= story.selectedStoryType(storyType) %> value="<%= storyType %>">
         <%= storyType %>
@@ -23,8 +23,8 @@
     </select>
   </div>
 
-  <div class="input-group">
-    <label for="story-state" class="input-group-addon">State:</label>
+  <div class="form-group">
+    <label for="story-state" class="control-label">State:</label>
     <select id="story-state" name="story[story_state]" class="form-control">
       <% _.each(storyStates, function (storyState) { %>
       <option <%= story.selectedStoryState(storyState) %> value="<%= storyState %>">
@@ -33,8 +33,8 @@
       <% }); %>
     </select>
   </div>
-  <div class="input-group">
-    <label for="story-points" class="input-group-addon">Points:</label>
+  <div class="form-group">
+    <label for="story-points" class="control-label">Points:</label>
     <select id="story-points" name="story[story_points]" class="form-control">
       <option value="">unestimated</option>
       <% _.each(storyPointVals, function (storyPointVal) { %>
