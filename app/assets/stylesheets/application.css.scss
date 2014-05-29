@@ -27,8 +27,11 @@
     width: 500px;
     float: left;
     color: rgb(200, 200, 200);
-    overflow-x: scroll;
-    min-height: 400;
+    
+//    .panel-body {
+//      overflow-y: scroll;
+//      height: 800;
+//    }
     
     .panel-heading {
       font-size: 20px;
@@ -37,7 +40,7 @@
 }
 
 .story-views.unstarted {
-  min-height: 72px;
+  min-height: 22px;
 }
 
 .story-show {

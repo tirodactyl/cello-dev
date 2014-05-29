@@ -44,8 +44,10 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   },
   newStory: function () {
     if ($('.story-form.not-persisted').length !== 0) { return }
+    var lastStory = this.model.stories().last();
+    var rank = (lastStory && (lastStory.get('story_rank') + 2)) || 1;
     var newStory = new Tracker.Models.Story({
-      story_rank: Math.floor(this.model.stories().last().get('story_rank') + 1),
+      story_rank: Math.floor(rank),
       project_id: this.model.id,
     });
     _.find(this.subviews('#project-panels'), function (subview) {
@@ -56,7 +58,7 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     var options = { reRank: undefined };
     if (story.iteration_id !== this.model.get('current_iteration_id')) {
       story.save({ iteration_id: this.model.get('current_iteration_id') })
-      options.rerank = true;
+      options.reRank = true;
     }
     
     _.find(this.subviews('#project-panels'), function (subview) {

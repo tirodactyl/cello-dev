@@ -4,4 +4,6 @@
 </div>
 <div class="story-views done clearfix show no-selection"></div>
 <div class="story-views started clearfix show no-selection"></div>
-<div class="story-views unstarted clearfix show no-selection"></div>
+<% if(moment(iteration.get('end_date')) > moment()) { %>
+  <div class="story-views unstarted clearfix show no-selection"></div>
+<% } %>

@@ -57,7 +57,6 @@ class Story < ActiveRecord::Base
     self.story_state ||= 'unscheduled'
   end
   def ensure_date_completed!
-    debugger
     self.date_completed ||= DateTime.now
   end
 end

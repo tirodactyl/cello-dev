@@ -15,6 +15,7 @@ Tracker.Views.ProjectNew = Backbone.View.extend({
     var project = new Tracker.Models.Project();
     project.save($form.serializeJSON(), {
       success: function () {
+        Tracker.Collections.projects.add(project)
         Backbone.history.navigate('/projects/' + project.id, { trigger: true })
       },
       error: function (errors) {
