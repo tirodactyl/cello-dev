@@ -52,7 +52,6 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.addStory(story, { reAttach: true });
   },
   addStory: function (story, options) {
-    debugger
     var storyView = new Tracker.Views.StoryShow({
       model: story,
       collection: this.collection
@@ -84,7 +83,6 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.reList();
   },
   rank: function (story, $el, options) {
-    debugger 
     var itemIndex = $el.index('.story-show')
     var prevRank = $el.prev('.story-show').data('rank') ||
         $($('.story-show')[itemIndex - 1]).data('rank');
