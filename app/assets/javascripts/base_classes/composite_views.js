@@ -17,9 +17,13 @@ Tracker.Views.CompositeView = Backbone.View.extend({
   },
   
   // Adding a subview renders it as well.
-  addSubview: function (selector, subview) {
-    this.subviews(selector).push(subview);
-    this.attachSubview(selector, subview.render());
+  addSubview: function (selector, subview, options) {
+    this.subviews(selector).push(subview.render());
+    if (options && options.reAttach) {
+      this.attachSubviews();
+    } else {
+      this.attachSubview(selector, subview);
+    }
   },
 
   attachSubview: function (selector, subview) {
@@ -36,9 +40,9 @@ Tracker.Views.CompositeView = Backbone.View.extend({
     var view = this;
     _(this.subviews()).each(function (subviews, selector) {
       view.$(selector).empty();
-      // if (view.compareBy) {
-      //   subviews.sort(view.compareBy);
-      // }
+      if (view.compareBy) {
+        subviews.sort(view.compareBy);
+      }
       _(subviews).each(function (subview) {
         view.attachSubview(selector, subview);
       });

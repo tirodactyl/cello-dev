@@ -56,7 +56,7 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
     var options = { reRank: undefined };
     if (story.iteration_id !== this.model.get('current_iteration_id')) {
       story.save({ iteration_id: this.model.get('current_iteration_id') })
-      options.rerank = true;
+      options.reRank = true;
     }
     
     _.find(this.subviews('#project-panels'), function (subview) {

@@ -24,6 +24,10 @@ module Api
         server_params[:owner_id] = current_user.id unless @story.owner_id
       end
       
+      unless story_params[:iteration_id]
+        server_params[:iteration_id] = nil
+      end
+      
       if @story.update_attributes(story_params.merge(server_params))
         render partial: 'api/stories/story', locals: { story: @story }
       else

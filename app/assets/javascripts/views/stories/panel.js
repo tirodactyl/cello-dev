@@ -49,9 +49,9 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.storyList();
   },
   dropStory: function (event, story) {
-    this.addStory(story);
+    this.addStory(story, { reAttach: true });
   },
-  addStory: function (story) {
+  addStory: function (story, options) {
     debugger
     var storyView = new Tracker.Views.StoryShow({
       model: story,
@@ -65,6 +65,8 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.listenTo(storyView, 'removeStory', this.removeStoryShow)
 
     this.addStoryShow(storyView);
+    
+    if (options && options.reAttach) { this.attachSubviews(); }
   },
   addStoryShow: function (subview) {
     this.addSubview('.story-views', subview);
@@ -81,7 +83,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.removeSubview('.story-views', storyView);
     this.reList();
   },
-  rank: function (story, $el, newPanelType) {
+  rank: function (story, $el, options) {
     debugger 
     var itemIndex = $el.index('.story-show')
     var prevRank = $el.prev('.story-show').data('rank') ||
@@ -95,8 +97,8 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     var newRank = ((prevRank + postRank) / 2);
     story.save({story_rank: newRank}, {
       success: function () {
-        if(newPanelType !== view.panelType) {
-          $el.parents('.story-views.unstarted').trigger('dropStory', story);
+        if(options && options.newPanel) {
+          $el.parents('.story-views').trigger('dropStory', story);
           view.removeStory(story);
         }
       }
@@ -106,7 +108,8 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
   /// ABANDON HOPE ALL YE WHO ENTER HERE
   
   storiesSortable: function () {
-    var storyId, story, oldPanelType, newPanelType, oldIterationId, newIterationId;
+    var storyId, story, oldPanelType, newPanelType,
+        oldIterationId, newIterationId, options;
     var view = this;
   
     this.$('.story-views.unstarted').sortable({
@@ -135,10 +138,15 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
           } else if (newPanelType === 'icebox'){
             story.set('story_state', 'unscheduled');
           }
+          options = {newPanel: true}
         }
         
         view.rank(story, ui.item, newPanelType);
       },
     });
-  }
+  },
+  compareBy: function (subviewA, subviewB) {
+    var result = subviewA.model.get('story_rank') - subviewB.model.get('story_rank');
+    if (result === 0) { return -1 } else { return result };
+  },
 });
