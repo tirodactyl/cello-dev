@@ -9,6 +9,7 @@ module Api
       end
     
       if @story.save
+        @story.project.touch
         render partial: 'api/stories/story', locals: { story: @story }
       else
         render json: { errors: @story.errors.full_messages }, status: :unprocessable_entity
@@ -29,6 +30,7 @@ module Api
       end
       
       if @story.update_attributes(story_params.merge(server_params))
+        @story.project.touch
         render partial: 'api/stories/story', locals: { story: @story }
       else
         render json: { errors: @story.errors.full_messages }, status: :unprocessable_entity
