@@ -25,7 +25,7 @@ module Api
     def show
       @project = Project.includes(:iterations, :stories).find(params[:id])
     
-      if !@project.current_iteration || @project.current_iteration.end_date > Time.now
+      if !@project.current_iteration || @project.current_iteration.end_date < Time.now
         new_iteration = @project.iterations.create
         
         if @project.current_iteration
