@@ -1,7 +1,9 @@
 <form class="form-horizontal" role="form">
   <input type="hidden" name="story[project_id]" value="<%= story.get('project_id') %>">
-  <input class="form-control" name="story[title]" placeholder="Story Title"
-      value="<%= story.get('title') %>">
+  <div class="form-group col-sm-12">
+    <input class="form-control" name="story[title]" placeholder="Story Title"
+        value="<%= story.get('title') %>">
+  </div>
   <input type=submit class="btn btn-md btn-primary submit pull-right" value="Save">
   <% if(story.id) { %>
   <button class="btn btn-md btn-danger delete-story pull-right">
@@ -18,35 +20,40 @@
 
   <div class="form-group">
     <label for="story-type" class="control-label col-md-2">Type:</label>
-    <select id="story-type" name="story[story_type]" class="form-control col-md-3">
-      <% _.each(storyTypes, function (storyType) { %>
-      <option <%= story.selectedStoryType(storyType) %> value="<%= storyType %>">
-        <%= storyType %>
-      </option>
-      <% }); %>
-    </select>
+    <div class="col-sm-3">
+      <select id="story-type" name="story[story_type]" class="form-control col-md-3">
+        <% _.each(storyTypes, function (storyType) { %>
+        <option <%= story.selectedStoryType(storyType) %> value="<%= storyType %>">
+          <%= storyType %>
+        </option>
+        <% }); %>
+      </select>
+    </div>
   </div>
 
   <div class="form-group">
-    <label for="story-state" class="control-label">State:</label>
-    <select id="story-state" name="story[story_state]" class="form-control">
-      <% _.each(storyStates, function (storyState) { %>
-      <option <%= story.selectedStoryState(storyState) %> value="<%= storyState %>">
-        <%= storyState %>
-      </option>
-      <% }); %>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="story-points" class="control-label">Points:</label>
-    <select id="story-points" name="story[story_points]" class="form-control">
-      <option value="">unestimated</option>
-      <% _.each(storyPointVals, function (storyPointVal) { %>
-      <option <%= story.selectedStoryPointVal(storyPointVal) %> value="<%= storyPointVal %>">
-        <%= storyPointVal %>
-      </option>
-      <% }); %>
-    </select>
+    <label for="story-state" class="control-label col-md-2">State:</label>
+    <div class="col-sm-3">
+      <select id="story-state" name="story[story_state]" class="form-control">
+        <% _.each(storyStates, function (storyState) { %>
+        <option <%= story.selectedStoryState(storyState) %> value="<%= storyState %>">
+          <%= storyState %>
+        </option>
+        <% }); %>
+      </select>
+    </div>
+
+    <label for="story-points" class="control-label col-md-2">Points:</label>
+    <div class="col-sm-3">
+      <select id="story-points" name="story[story_points]" class="form-control">
+        <option value="">unestimated</option>
+        <% _.each(storyPointVals, function (storyPointVal) { %>
+        <option <%= story.selectedStoryPointVal(storyPointVal) %> value="<%= storyPointVal %>">
+          <%= storyPointVal %>
+        </option>
+        <% }); %>
+      </select>
+    </div>
   </div>
   
   <textarea class="form-control" name="story[description]" placeholder="Description"><%= story.get('description') %></textarea>
