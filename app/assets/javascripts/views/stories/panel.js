@@ -29,7 +29,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     });
   },
   events: {
-    
+    'dropStory .story-views.unstarted': 'dropStory',
   },
   panelFilters: {
     icebox: function (model) {
@@ -48,7 +48,11 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this._storyList = undefined;
     this.storyList();
   },
+  dropStory: function (event, story) {
+    this.addStory(story);
+  },
   addStory: function (story) {
+    debugger
     var storyView = new Tracker.Views.StoryShow({
       model: story,
       collection: this.collection
@@ -77,7 +81,8 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     this.removeSubview('.story-views', storyView);
     this.reList();
   },
-  rank: function (story, $el) {
+  rank: function (story, $el, newPanelType) {
+    debugger 
     var itemIndex = $el.index('.story-show')
     var prevRank = $el.prev('.story-show').data('rank') ||
         $($('.story-show')[itemIndex - 1]).data('rank');
@@ -86,8 +91,16 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
     if (!prevRank || prevRank < 0) { prevRank = 0; }
     if (!postRank || postRank < 0) { postRank = prevRank + 1; }
     
+    var view = this;
     var newRank = ((prevRank + postRank) / 2);
-    story.save({story_rank: newRank});
+    story.save({story_rank: newRank}, {
+      success: function () {
+        if(newPanelType !== view.panelType) {
+          $el.parents('.story-views.unstarted').trigger('dropStory', story);
+          view.removeStory(story);
+        }
+      }
+    });
   },
   
   /// ABANDON HOPE ALL YE WHO ENTER HERE
@@ -103,13 +116,13 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       start: function (event, ui) {
         storyId = ui.item.attr('data-id');
         story = view.collection.get(storyId);
-        oldPanelType = ui.item.parents('.stories-panel').attr('id');
+        oldPanelType = ui.item.parents('.panel').attr('id');
       },
       receive: function (event, ui) {
       },
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
-        newPanelType = ui.item.parents('.stories-panel').attr('id');
+        newPanelType = ui.item.parents('.panel').attr('id');
         newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
 
         if (story.get('iteration_id') !== newIterationId) {
@@ -124,7 +137,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
           }
         }
         
-        view.rank(story, ui.item);
+        view.rank(story, ui.item, newPanelType);
       },
     });
   }

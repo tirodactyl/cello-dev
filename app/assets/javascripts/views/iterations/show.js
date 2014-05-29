@@ -26,24 +26,29 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
   events: {
     'click .iteration-toggle': 'toggleIteration',
     'dblclick .iteration-header': 'toggleIteration',
+    'dropStory .story-views.unstarted': 'dropStory'
   },
   storyList: function () {
     var id = this.model.id
-    this._storyList = this._storyList ||
+    this._storyList =
         this.collection.filter(function(story) {
           return story.get('iteration_id') === id;
         });
     return this._storyList
   },
-  reList: function () {
-    this._storyList = undefined;
-    this.storyList();
-  },
+  // reList: function () {
+  //   this._storyList = undefined;
+  //   this.storyList();
+  // },
   toggleIteration: function () {
     this.$('.iteration-toggle').toggleClass('glyphicon-chevron-right glyphicon-chevron-down');
     this.$('.story-views').toggleClass('show hide');
   },
+  dropStory: function (event, story) {
+    this.addStory(story);
+  },
   addStory: function (story, options) {
+    debugger
     var storyView = new Tracker.Views.StoryShow({
       model: story,
       collection: this.collection
@@ -72,7 +77,7 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
   removeStoryShow: function (subview) {
     this.removeSubview('.story-views', subview);
   },
-  rank: function (story, $el) {
+  rank: function (story, $el, newPanelType) {
     var itemIndex = $el.index('.story-show')
     var prevRank = $el.prev('.story-show').data('rank') ||
         $($('.story-show')[itemIndex - 1]).data('rank');
@@ -81,8 +86,16 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
     if (!prevRank || prevRank < 0) { prevRank = 0; }
     if (!postRank || postRank < 0) { postRank = prevRank + 1; }
     
+    var view = this;
     var newRank = ((prevRank + postRank) / 2);
-    story.save({story_rank: newRank});
+    story.save({story_rank: newRank}, {
+      success: function () {
+        if(newPanelType !== view.panelType) {
+          $el.parents('.story-views.unstarted').trigger('dropStory', story);
+          view.removeStory(story);
+        }
+      }
+    });
   },
   storiesSortable: function () {
     var storyId, story, oldPanelType, newPanelType, oldIterationId, newIterationId;
@@ -95,13 +108,13 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       start: function (event, ui) {
         storyId = ui.item.attr('data-id');
         story = view.collection.get(storyId);
-        oldPanelType = ui.item.parents('.stories-panel').attr('id');
+        oldPanelType = ui.item.parents('.panel').attr('id');
       },
       receive: function (event, ui) {
       },
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
-        newPanelType = ui.item.parents('.stories-panel').attr('id');
+        newPanelType = ui.item.parents('.panel').attr('id');
         newIterationId = ui.item.parents('.iteration-show').attr('data-iteration-id');
         
         if (oldPanelType !== newPanelType) {
@@ -116,7 +129,7 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
           story.set('iteration_id', newIterationId);
         }
         
-        view.rank(story, ui.item);
+        view.rank(story, ui.item, newPanelType);
       },
     });
     
@@ -133,7 +146,7 @@ Tracker.Views.IterationShow = Tracker.Views.CompositeView.extend({
       // stop is fired in the original container view and will occur after recieve is fired if the story is moved to a different list
       stop: function (event, ui) {
 
-        view.rank(story, ui.item);
+        view.rank(story, ui.item, view.panelType);
       },
     });
   }
