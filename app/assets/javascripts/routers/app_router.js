@@ -7,6 +7,10 @@ Tracker.Routers.AppRouter = Backbone.Router.extend({
   initialize: function () {
     this.$rootEl = $('div#content');
     Tracker.Collections.projects = new Tracker.Collections.Projects;
+    Tracker.Views.projectNav = new Tracker.Views.ProjectNavbar({
+      collection: Tracker.Collections.projects
+    });
+    $('.dropdown.projects-dropdown').append(Tracker.Views.projectNav.render().$el);
   },
   projectIndex: function () {
     var indexView = new Tracker.Views.ProjectIndex({
