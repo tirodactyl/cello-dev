@@ -15,14 +15,21 @@ Tracker.Views.ProjectIndex = Backbone.View.extend({
     this.collection.fetch();
   },
   events: {
-    
+    'submit form': 'saveNewProject'
   },
-  // addProject: function (project) {
-  //   this.render();
-  // },
-  // removeProject: function (project) {
-  //   var selector = 'li.project#' + project.id;
-  //   $(this).find(selector).remove();
-  //   this.render();
-  // }
+  saveNewProject: function (event) {
+    event.preventDefault();
+    var $form = $(event.target);
+    var project = new Tracker.Models.Project();
+    $('#new-project-modal').modal('hide');
+    project.save($form.serializeJSON(), {
+      success: function () {
+        Tracker.Collections.projects.add(project)
+        Backbone.history.navigate('/projects/' + project.id, { trigger: true })
+      },
+      error: function (errors) {
+        alert(errors);
+      }
+    });
+  },
 });
