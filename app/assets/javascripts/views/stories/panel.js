@@ -36,7 +36,7 @@ Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
       return model.get('story_state') === 'unscheduled';
     },
     backlog: function (model) {
-      return model.get('story_state') === 'unstarted';
+      return (model.get('story_state') === 'unstarted') && (!model.get('iteration_id'));
     },
   },
   storyList: function () {

@@ -78,6 +78,10 @@ div.panel-holder {
 
 #project-panels {
   width: 2200px;
+  height: 100%;
+  overflow-x: auto;
+  padding-left: 1pc;
+  padding-right: 1pc;
   
   &> .panel {
     
@@ -152,6 +156,7 @@ input[type="submit"] {
   .story-title {
     padding: 1px;
     width: 367px;
+    white-space: normal;
   }
   
   &.accepted {
