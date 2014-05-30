@@ -1,6 +1,6 @@
 Tracker.Views.IterationsPanel = Tracker.Views.CompositeView.extend({
   tagName: 'div',
-  className: 'panel panel-default iterations-panel',
+  className: 'panel panel-default iterations-panel show',
   template: JST['iterations/panel'],
   render: function () {
     this.$el.html(this.template({

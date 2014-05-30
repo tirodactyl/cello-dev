@@ -27,6 +27,12 @@ Tracker.Views.ProjectShow = Tracker.Views.CompositeView.extend({
   events: {
     'showStories': 'showStories',
     'click #add-story': 'newStory',
+    'click .panel-toggle': 'togglePanel',
+  },
+  togglePanel: function (event) {
+    var panelId = '#' + event.target.id.split('-',1)[0];
+    console.log(panelId)
+    this.$('.panel'+ panelId).toggleClass("show hide");
   },
   storyPanel: function (panelType) {
     var subview = new Tracker.Views.StoriesPanel({

@@ -1,6 +1,6 @@
 Tracker.Views.StoriesPanel = Tracker.Views.CompositeView.extend({
   tagName: 'div',
-  className: 'panel panel-default stories-panel',
+  className: 'panel panel-default stories-panel show',
   template: JST['stories/panel'],
   render: function () {
     this.$el.html(this.template({

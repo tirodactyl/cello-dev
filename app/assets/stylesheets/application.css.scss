@@ -38,15 +38,35 @@
   height: 800px;
 }
 
+div.panel-holder {
+    overflow-x: auto;
+    white-space: nowrap;
+
+    .panel {
+        display: inline-block;
+        float: left; /* Very important */
+    }
+}
+
+
 #project-panels {
-  overflow-x: scroll;
-  padding: 0pc 1pc;
+      width: 2200px;
+//  overflow-x: scroll;
+//  padding: 0pc 1pc;
+//  width: 100%;
+//  
+//  white-space: nowrap;
+//  overflow-x: scroll;
+//  overflow-y: hidden;
   
   &> .panel {
+//    display: inline-block;
+//    vertical-align: top;
+    
     padding: 0px;
     margin: 1pc;
     width: 500px;
-    float: left;
+//    float: left;
     color: rgb(200, 200, 200);
     
 //    .panel-body {
@@ -95,7 +115,7 @@
   
   .story-title {
     padding: 1px;
-    width: 310px;
+    width: 367px;
   }
   
   &.accepted {

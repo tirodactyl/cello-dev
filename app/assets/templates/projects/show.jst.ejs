@@ -7,7 +7,23 @@
   <div id="add-story" class="pull-right">
     <button class="btn btn-success">Add Story</button>
   </div>
+  <div class="col-md-12 nav">
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-default panel-toggle" id="done-panel-toggle">
+        <input type="checkbox"> done
+      </label>
+      <label class="btn btn-default panel-toggle" id="current-panel-toggle">
+        <input type="checkbox"> current
+      </label>
+      <label class="btn btn-default panel-toggle" id="backlog-panel-toggle">
+        <input type="checkbox"> backlog
+      </label>
+      <label class="btn btn-default panel-toggle" id="icebox-panel-toggle">
+        <input type="checkbox"> icebox
+      </label>
+    </div>
+  </div>
 </div>
-<div class="container-fluid">
+<div class="panel-holder clearfix">
   <div id="project-panels" class="row"></div>
 </div>
