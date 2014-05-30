@@ -12,10 +12,34 @@
  *= require_tree .
  */
 
+@import url(http://fonts.googleapis.com/css?family=Press+Start+2P|Roboto+Condensed:400,700&subset=latin,latin-ext);
 
 @import "bootstrap";
 
 @import "bootswatch-slate";
+
+.latin {
+  font-family: 'Nova Script', cursive;
+}
+.nerd {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8pt;
+}
+.bit-bigger {
+  font-size: 16pt;
+}
+.std-font {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+form label {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-transform: uppercase;
+}
 
 .navbar-header {
   padding-left: 2pc;
@@ -48,40 +72,29 @@ div.panel-holder {
     }
 }
 
+.modal-header button {
+  color: #FF0000;
+}
 
 #project-panels {
-      width: 2200px;
-//  overflow-x: scroll;
-//  padding: 0pc 1pc;
-//  width: 100%;
-//  
-//  white-space: nowrap;
-//  overflow-x: scroll;
-//  overflow-y: hidden;
+  width: 2200px;
   
   &> .panel {
-//    display: inline-block;
-//    vertical-align: top;
     
     padding: 0px;
     margin: 1pc;
     width: 500px;
-//    float: left;
     color: rgb(200, 200, 200);
-    
-//    .panel-body {
-//      overflow-y: scroll;
-//      height: 800;
-//    }
     
     .panel-heading {
       font-size: 20px;
+      text-transform: uppercase;
+      font-family: 'Roboto Condensed', sans-serif;
     }
     .panel-body {
       padding: 0px;
       &> div.iteration-show {
         position: relative;
-    //    border: thin solid rgb(221, 221, 221);
         &> div {
           padding: 0px;
         }
@@ -98,19 +111,42 @@ div.panel-holder {
   color: #708e90;
 }
 
+input[type="submit"] {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-transform: uppercase;
+}
+
 .story-show {
+  overflow-x: hidden;
   padding-top: 2px;
   padding-bottom: 2px;
   padding-right: 2px;
   position: relative;
   margin: 2px;
-  -webkit-transition: padding 200ms linear 0.2s;
-  -moz-transition: padding 200ms linear 0.2s;
-  -o-transition: padding 200ms linear 0.2s;
-  transition: padding 200ms linear 0.2s;
+//  -webkit-transition: padding 200ms linear 0.2s;
+//  -moz-transition: padding 200ms linear 0.2s;
+//  -o-transition: padding 200ms linear 0.2s;
+//  transition: padding 200ms linear 0.2s;
   
   &:hover {
 
+  }
+  
+  .story-buttons button:not(.story-accepted-date) {
+    text-transform: uppercase;
+    font-family: 'Roboto Condensed', sans-serif;
+    position: relative;
+    -webkit-transition: left 70ms linear 0.07s;
+    -moz-transition: left 70ms linear 0.07s;
+    -o-transition: left 70ms linear 0.07s;
+    transition: left 70ms linear 0.07s;
+    left: 100px;
+  }
+  
+  &:hover {
+    .story-buttons button {
+      left: 0;
+    }
   }
   
   .story-title {
@@ -141,6 +177,10 @@ div.panel-holder {
   }
 }
 
+.projects-list {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 .story-form {
   background: #5E5948;
   margin: -2px -2px -2px 0px;
@@ -151,26 +191,7 @@ div.panel-holder {
   button.btn-warning {
     margin-left: 10px;
   }
-//  * {
-//    margin: 2px;
-//    border: 0px;
-//  }
 }
-
-//.story-buttons button {
-//  &.story-accept {
-//    color: #148714;
-//    background: #284B7E;
-//    &:hover {
-//      background: #052F6D;
-//    }
-//  }
-//  &.story-reject {
-//    color: #871414;
-//  }
-//}
-
-
 
 .init-edit,.iteration-toggle {
   margin-right: 1pc;
@@ -185,9 +206,17 @@ div.panel-holder {
   div {
     float: left;
   }
+  label {
+    font-family: 'Roboto Condensed', sans-serif;
+    text-transform: uppercase;
+  }
+  button {
+    text-transform: uppercase;
+    font-family: 'Roboto Condensed', sans-serif;
+  }
 }
 
-.no-selection {
+.no-selection,.story-views {
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
@@ -208,7 +237,3 @@ form.user-form {
   padding-top: 1pc;
   padding-bottom: 1pc;
 }
-
-//.story-show .story-body {
-//  position: absolute;
-//}

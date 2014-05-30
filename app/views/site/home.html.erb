@@ -10,7 +10,7 @@
         </h2>
       </div>
       <div class="panel-body">
-        <ol>
+        <ol class="std-font bit-bigger">
           <li>Latin: to impel; to urge forward;</li>
           <li>(+'dev'): The project management application you're looking at;</li>
         </ol>
@@ -20,7 +20,7 @@
   </div>
   <div class="col-md-6 jumbotron login">
     <div>
-      <h2>Welcome to cellō-dev!</h2>
+      <h2 class="std-font">Welcome to cellō-dev!</h2>
     </div>
     <div class="col-md-12 sign-in">
       <%= render partial: "users/form", locals: {
@@ -29,11 +29,11 @@
         method: "post",
         message: "Log in!" } %>
     </div>
-    <div>
+    <div class="std-font">
       <p>Not signed up yet?</p>
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new-user-modal">Join us!</button>
+      <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#new-user-modal">Join us!</button>
       <strong>OR</strong>
-      <button id="demo-sign-in" class="btn btn-primary btn-lg">Check out a demo account</button>
+      <button id="demo-sign-in" class="btn btn-primary btn-md">Check out a demo account</button>
     </div>
   </div>
 </div>

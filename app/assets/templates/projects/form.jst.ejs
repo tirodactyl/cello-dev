@@ -1,13 +1,19 @@
-<form class="project-form">
-  <label class="col-sm-2 control-label" for="project-title">Title</label>
-  <div class="col-sm-10">
-    <input class="form-control" name="project[title]" id="project-title"></input>
-  </div>
-  
-  <label class="col-sm-2 control-label" for="project-description">Description</label>
-  <div class="col-sm-10">
-    <textarea class="form-control" name="project[description]" id="project-description"></textarea>
-  </div>
-  
-  <input class="form-control" type="submit">
-</form>
+<div class="clearfix">
+  <form class="project-form form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-sm-2 control-label std-font uppercase" for="project-title">Title</label>
+      <div class="col-sm-10">
+        <input class="form-control" name="project[title]" id="project-title"></input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label std-font uppercase" for="project-description">Description</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" name="project[description]" id="project-description"></textarea>
+      </div>
+    </div>
+    <div class="form-group col-sm-4 pull-right">
+      <input class="form-control std-font uppercase" type="submit">
+    </div>
+  </form>
+</div>
