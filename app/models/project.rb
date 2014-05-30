@@ -7,9 +7,9 @@ class Project < ActiveRecord::Base
     inverse_of: :owned_projects
   }
   
-  has_many :memberships, class_name: "ProjectMembership", inverse_of: :project
+  has_many :memberships, class_name: "ProjectMembership", inverse_of: :project, dependent: :destroy
   has_many :members, through: :memberships, source: :user
-  has_many :stories, inverse_of: :project
-  has_many :iterations, inverse_of: :project
+  has_many :stories, inverse_of: :project, dependent: :destroy
+  has_many :iterations, inverse_of: :project, dependent: :destroy
   has_one :current_iteration, class_name: "Iteration"
 end
