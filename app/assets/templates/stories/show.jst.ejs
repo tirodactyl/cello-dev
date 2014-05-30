@@ -1,6 +1,9 @@
 <span class="init-edit pull-left glyphicon glyphicon-chevron-right"></span>
 <div class="story-preview clearfix show no-selection">
   <div class="story-buttons pull-right std-font"></div>
-  <div class="story-title pull-left std-font"><%= story.escape('title') %> - <%= story.escape('story_rank')%></div>
+  <div class="story-title pull-left std-font">
+    <%= JST['stories/type_icons']({ story: story }) %> | 
+    <%= story.escape('title') %>
+  </div>
 </div>
 <div class="story-body no_selection"></div>

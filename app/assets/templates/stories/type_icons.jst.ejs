@@ -1,0 +1,15 @@
+<% var story_type = story.get('story_type') %>
+
+<% if (story_type === 'feature') { %>
+  <span class="type-icon glyphicon glyphicon-flash"></span>
+<% } else if (story_type === 'bug') { %>
+  <span class="type-icon glyphicon glyphicon-fire"></span>
+<% } else if (story_type === 'task') { %>
+  <span class="type-icon glyphicon glyphicon-cog"></span>
+<% } else if (story_type === 'release') { %>
+  <span class="type-icon glyphicon glyphicon-bookmark"></span>
+<% } %>
+
+<% if (typeof story.get('story_points') === 'number') { %>
+  <span class="points-icon"><%= story.get('story_points')%>pts</span>
+<% } %>
