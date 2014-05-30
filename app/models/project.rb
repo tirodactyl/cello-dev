@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  validates :title, :description, :owner, presence: true
+  validates :title, :owner, presence: true
   belongs_to :owner, {
     class_name: "User",
     foreign_key: :owner_id,
