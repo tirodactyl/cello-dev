@@ -1,6 +1,6 @@
 Tracker.Views.ProjectNavbar = Backbone.View.extend({
-  tagName: 'ul',
-  className: 'dropdown-menu projects-dropdown',
+  tagName: 'li',
+  className: 'dropdown projects-dropdown',
   template: JST['projects/navbar_dropdown'],
   render: function () {
     this.$el.html(this.template({

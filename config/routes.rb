@@ -1,5 +1,7 @@
 Tracker::Application.routes.draw do
   root to: "site#root"
+  get "/home", to: "site#home", as: "home"
+  get "/about", to: "site#about", as: "about"
   resources :users, only: [:new, :create, :show, :index]
   resource :session, only: [:new, :create, :destroy]
   

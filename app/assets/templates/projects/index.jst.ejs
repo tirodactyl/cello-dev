@@ -1,9 +1,12 @@
-<h2>Projects</h2>
-<div id="projects-list" class="list-group">
-  <% projects.each(function (project) { %>
-    <a class="list-group-item" href="#/projects/<%= project.id %>">
-      <%= project.escape('title') %>
-    </a>
-  <% }); %>
+<div class="content container">
+  <h2>Projects</h2>
+  <div id="projects-list" class="list-group">
+    <% projects.each(function (project) { %>
+      <a class="list-group-item" href="#/projects/<%= project.id %>">
+        <%= project.escape('title') %>
+        <p class="pull-right">Last Updated <%= moment(project.get('updated_at')).format('DD MMM [@]hh:mm') %></p>
+      </a>
+    <% }); %>
+  </div>
+  <a class="btn btn-default create-new-project" href="#/projects/new">Create New</a>
 </div>
-<a class="btn btn-default create-new-project" href="#/projects/new">Create New</a>

@@ -17,6 +17,27 @@
 
 @import "bootswatch-slate";
 
+.navbar-header {
+  padding-left: 2pc;
+  img {
+    height: 50px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    
+    &:hover {
+      -webkit-filter: invert(50%);  
+    }
+  }
+  a {
+    height: 50px;
+    padding: 0px;
+  }
+}
+
+#about-me {
+  height: 800px;
+}
+
 #project-panels {
   overflow-x: scroll;
   padding: 0pc 1pc;
@@ -36,11 +57,25 @@
     .panel-heading {
       font-size: 20px;
     }
+    .panel-body {
+      padding: 0px;
+      &> div.iteration-show {
+        position: relative;
+    //    border: thin solid rgb(221, 221, 221);
+        &> div {
+          padding: 0px;
+        }
+      }
+    }
   }
 }
 
 .story-views.unstarted {
   min-height: 22px;
+}
+
+.home-def h2 {
+  color: #708e90;
 }
 
 .story-show {
@@ -115,16 +150,7 @@
 //  }
 //}
 
-.panel-body {
-  padding: 0px;
-  &> div.iteration-show {
-    position: relative;
-//    border: thin solid rgb(221, 221, 221);
-    &> div {
-      padding: 0px;
-    }
-  }
-}
+
 
 .init-edit,.iteration-toggle {
   margin-right: 1pc;
@@ -146,6 +172,21 @@
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
     -ms-user-select: none; /* IE10+ */
+}
+
+.jumbotron.login {
+  padding: 2pc;
+  h2 {
+    margin-top: 0px;
+  }
+  p {
+    margin-bottom: 0px;
+  }
+}
+
+form.user-form {
+  padding-top: 1pc;
+  padding-bottom: 1pc;
 }
 
 //.story-show .story-body {

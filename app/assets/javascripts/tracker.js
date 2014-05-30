@@ -9,6 +9,4 @@ window.Tracker = {
   }
 };
 
-$(document).ready(function(){
-  Tracker.initialize();
-});
+

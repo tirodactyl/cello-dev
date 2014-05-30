@@ -1,0 +1,66 @@
+<div id="content" class="container">
+  <div class="col-md-6">
+    <div class="panel col-md-12 home-def">
+      <div class="panel-header">
+        <h2>
+          cellō
+          <span class="label label-default">
+          /kél̚lo/
+          </span>
+        </h2>
+      </div>
+      <div class="panel-body">
+        <ol>
+          <li>Latin: to impel; to urge forward;</li>
+          <li>(+'dev'): The project management application you're looking at;</li>
+        </ol>
+        
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 jumbotron login">
+    <div>
+      <h2>Welcome to cellō-dev!</h2>
+    </div>
+    <div class="col-md-12 sign-in">
+      <%= render partial: "users/form", locals: {
+        user: User.new,
+        action: session_url,
+        method: "post",
+        message: "Log in!" } %>
+    </div>
+    <div>
+      <p>Not signed up yet?</p>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new-user-modal">Join us!</button>
+      <strong>OR</strong>
+      <button id="demo-sign-in" class="btn btn-primary btn-lg">Check out a demo account</button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="new-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Sign up!</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: "users/form", locals: {
+          user: User.new,
+          action: users_url,
+          method: "post",
+          message: "Create your account" } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('#demo-sign-in').on('click', function () {
+  $('.sign-in').find('.form-control.email').val('tester@sharklasers.com');
+  $('.sign-in').find('.form-control.password').val('password');
+});
+</script>

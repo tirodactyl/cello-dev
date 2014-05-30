@@ -1,12 +1,22 @@
-<form action='<%= action %>' method='post'>
+<form class="form-horizontal user-form" action='<%= action %>' method='post'>
   <%= auth_token_input %>
   <input type='hidden' name='_method' value='<%= method %>'>
   
-  <label for='user_email'>Email:</label>
-  <input type='text' name='user[email]' id='user_email' value='<%= user.email.try(:html_safe) %>'>
-  
-  <label for ='user_password'>Password:</label>
-  <input type='password' name='user[password]' id='user_password'>
-  
-  <input type='submit' value='<%= message %>'>
+  <div class="form-group">
+    <label class="control-label col-md-3" for='user_email'>Email:</label>
+    <div class="col-md-9">
+      <input class="form-control email" type='text' name='user[email]' id='user_email' value='<%= user.email.try(:html_safe) %>'>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-3" for ='user_password'>Password:</label>
+    <div class="col-md-9">
+      <input class="form-control password" type='password' name='user[password]' id='user_password'>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-md-9 pull-right">
+      <input class="form-control" type='submit' value='<%= message %>'>
+    </div>
+  </div>
 </form>

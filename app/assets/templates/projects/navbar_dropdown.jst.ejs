@@ -1,9 +1,13 @@
-<% projects.each( function (project) { %>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+  Projects<b class="caret"></b></a>
+<ul class="dropdown-menu projects-dropdown">
+  <% projects.each( function (project) { %>
   <li>
     <a class="" href="#/projects/<%= project.id %>">
       <%= project.escape('title') %>
     </a>
   </li>
-<% }) %>
-<li class="divider"></li>
-<li><a class="" href="#">All Projects</a></li>
+  <% }) %>
+  <li class="divider"></li>
+  <li><a class="" href="#">All Projects</a></li>
+</ul>
