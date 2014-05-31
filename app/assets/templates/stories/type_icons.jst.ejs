@@ -1,5 +1,4 @@
 <% var story_type = story.get('story_type') %>
-
 <% if (story_type === 'feature') { %>
   <span class="type-icon glyphicon glyphicon-flash"></span>
 <% } else if (story_type === 'bug') { %>
@@ -10,6 +9,7 @@
   <span class="type-icon glyphicon glyphicon-bookmark"></span>
 <% } %>
 
-<% if (typeof story.get('story_points') === 'number') { %>
+<% var story_points = story.get('story_points') %>
+<% if (typeof story_points === 'number') { %>
   <span class="points-icon"><%= story.get('story_points')%>pts</span>
 <% } %>
