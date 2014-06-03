@@ -38,6 +38,14 @@
   </div>
 </nav>
 
+<% if flash[:errors] %>
+<div class="home-errors pull-right">
+  <% flash[:errors].each do |error| %>
+  <p>- <%= error %></p>
+  <% end %>
+</div>
+<% end %>
+
 
   <%= yield %>
 

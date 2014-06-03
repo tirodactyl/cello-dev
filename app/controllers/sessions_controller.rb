@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     else
       flash[:errors] = ['Invalid login information']
       @user = User.new(email: session_params[:email])
-      render :new
+      redirect_to root_url
     end
   end
   
