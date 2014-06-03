@@ -87,7 +87,10 @@ Tracker.Views.StoryShow = Tracker.Views.CompositeView.extend({
     if (this.formView) { this.expandForm(); }
     this.render();
   },
-  expandForm: function () {
+  expandForm: function (event) {
+    if (event) {
+      event.preventDefault();
+    }
     this.togglePreview();
     this.toggleForm();
   },
