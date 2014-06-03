@@ -57,3 +57,4 @@ gem 'jbuilder', '~> 2.0.7'
 gem 'ejs'
 gem 'rails_12factor', group: :production
 gem 'jquery-ui-rails'
+gem 'newrelic_rpm'
