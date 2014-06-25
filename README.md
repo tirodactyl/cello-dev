@@ -2,7 +2,7 @@
 
 Check out the live demo site [here](http://www.cello-dev.com).
 
-This is a clone of [PivotalTracker](http://www.pivotaltracker.com) by [PivotalLabs](http://pivotallabs.com/).
+This is an Agile project management tool inspired by: [Asana](http://asana.com), [Trello](http://trello.com), [PivotalTracker](http://www.pivotaltracker.com), and other task management tools...
 
 Having used a variety of task-management type software over the last several years, I decided it would be worthwhile for me to build my own and incorporate the features I found most essential. I built this with PivotalTracker in mind, though I had not used PivotalTracker in a professional context and this came about through a conversation where I described my ideal task management app - and was then pointed to Pivotal...
 
