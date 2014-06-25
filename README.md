@@ -18,3 +18,12 @@ A few notes on the technologies utilized in this build:
 - Clean front-end design with simple toggling of view components and inline editing for tasks (stories) in each project
   - Clear color-coded designations for stories in different stages to allow at-a-glance evaluation
   - Muted color-scheme is easy on the eyes without sacrificing contrast and contextual information
+
+TODO:
+- **add future iterations
+- improve visual identification of features v bugs v tasks
+- remove ability to assign points to bugs/tasks (default to 0pts)
+- add delete option and confirmation for projects
+- allow stories to be moved back from accepted or started state
+- auto-focus when creating new story
+- allow-reordering of columns
